@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MealIDEA</title>
+  <title>MealDoot</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
@@ -12,8 +11,8 @@
 
   <!-- Splash Page -->
   <div id="cover-page" class="active">
-    <img src="https://drive.google.com/file/d/1W0MqvAHrYRyCR8kI8eRNPCJ29FPCzERf/view?usp=sharing" class="logo-cover" alt="MealIDEA Logo">
-    <h1>MealIDEA</h1>
+    <img src="https://drive.google.com/uc?id=1W0MqvAHrYRyCR8kI8eRNPCJ29FPCzERf" alt="MealDoot Logo" class="logo-cover">
+    <h1>MealDoot</h1>
     <p>Plan. Discover. Enjoy.</p>
     <button id="enterAppBtn">Start</button>
   </div>
@@ -25,7 +24,6 @@
       <iframe src="https://script.google.com/macros/s/AKfycbx-APEkUYNS3YxOIG1OcIX32nCBAnYd2mmVh0ADrV51me9G8iJnAqxg65ETsEsJhEAHCw/exec" title="Breakfast"></iframe>
       <iframe src="https://script.google.com/macros/s/AKfycbxeBNiaKdEXr0LilVuCXi0Q9_6BGwVZ-HlIxLOBH7ml1h6vqlND-cGE6GeIxoUq6Ttv/exec" title="Lunch"></iframe>
       <iframe src="https://script.google.com/macros/s/AKfycbyLG9ZOI4G84_bGrLe9I9UQeuNCYjziAQwQvtjKtU0tq3ZhuOHQpazO_ay75l3esY57/exec" title="Dinner"></iframe>
-
     </div>
 
     <div class="tab-content" id="tab-history">
@@ -40,17 +38,25 @@
 
     <div class="tab-content" id="tab-subscribe">
       <h2>Subscribe for Updates</h2>
-      <button onclick="window.open('https://forms.gle/PqhH5FhmSLpBxvxR9', '_blank')">
-        🔔 Subscribe Now
-      </button>
+      <button onclick="window.open('https://forms.gle/PqhH5FhmSLpBxvxR9', '_blank')">🔔 Subscribe Now</button>
     </div>
 
-    <!-- Bottom Navigation -->
+    <div class="tab-content" id="tab-about">
+      <h2>About Us</h2>
+      <p>One goal -- Ease Life!!</p>
+      <p>Our recipes draw inspiration from the rich and diverse culinary traditions across all regions of India—from the spicy and tangy flavors of the South to the hearty and wholesome dishes of the North, and everything in between. This ensures you enjoy a vibrant mix of tastes and nutrients that celebrate India’s incredible vegetarian heritage.</p>
+      <p>Whether you are a lifelong vegetarian or simply looking to add more plant-based meals to your routine, MealDoot is here to inspire and simplify your cooking journey with balanced, flavorful menus that bring joy to your table every day.</p>
+      <p>Let MealDoot be your trusted companion in making meal decisions effortless and enjoyable!</p>
+      <p>It's sole purpose is to ease the chaos of daily cooking menu. All you need to do is open the site and get your Day's Menu 😀</p>
+      <p>If you find this helpful do Share with your friends !!☺️</p>
+    </div>
+
     <nav class="bottom-nav">
       <button class="tab-btn active" data-tab="tab-meals">🍽 Meals</button>
       <button class="tab-btn" data-tab="tab-history">📜 History</button>
       <button class="tab-btn" data-tab="tab-feedback">💬 Feedback</button>
       <button class="tab-btn" data-tab="tab-subscribe">🔔 Subscribe</button>
+      <button class="tab-btn" data-tab="tab-about">ℹ️ About</button>
     </nav>
   </div>
 

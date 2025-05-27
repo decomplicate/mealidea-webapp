@@ -1,4 +1,3 @@
-/* Global Reset & Fonts */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,11 +6,11 @@
 body, html {
   height: 100%;
   font-family: 'Poppins', sans-serif;
-  overflow: hidden;
   background: #f0f4f8;
+  overflow: hidden;
 }
 
-/* Splash / Cover Page */
+/* Splash Page */
 #cover-page {
   height: 100vh;
   width: 100vw;
@@ -49,6 +48,7 @@ body, html {
   margin-top: 2rem;
   color: #333;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
 }
 #cover-page button:hover {
   background-color: #ffdb59;
@@ -65,7 +65,7 @@ body, html {
 .tab-content {
   display: none;
   height: calc(100vh - 60px);
-  overflow: auto;
+  overflow-y: auto;
   padding: 1rem;
   background: #f7f9fc;
 }
@@ -76,7 +76,14 @@ body, html {
   text-align: center;
   margin-bottom: 1rem;
   color: #4CAF50;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+}
+.about-text, .contact-text {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  color: #444;
+  text-align: justify;
+  padding: 0 1rem;
 }
 iframe {
   width: 100%;
@@ -87,7 +94,7 @@ iframe {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* Subscribe Button Section */
+/* Subscribe Button */
 #tab-subscribe button {
   background: #FFC107;
   border: none;
@@ -100,6 +107,7 @@ iframe {
   cursor: pointer;
   margin: 2rem auto;
   display: block;
+  transition: all 0.3s ease;
 }
 #tab-subscribe button:hover {
   background-color: #ffdb59;
@@ -128,11 +136,15 @@ iframe {
   color: #4CAF50;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.tab-btn:hover {
+  background-color: #e8f5e9;
 }
 .tab-btn.active {
   background: #4CAF50;
   color: white;
+  border-radius: 6px 6px 0 0;
 }
 
 /* Responsive */
