@@ -4,12 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MealIDEA</title>
-  <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* CSS styles here (see below) */
+  </style>
 </head>
 <body>
 
-  <!-- Cover Page with About + Contact merged -->
+  <!-- Cover Page -->
   <div id="cover-page" class="active">
     <img src="https://drive.google.com/uc?export=view&id=1W0MqvAHrYRyCR8kI8eRNPCJ29FPCzERf" class="logo-cover" alt="MealIDEA Logo" />
     <h1>MealIDEA</h1>
@@ -26,6 +28,8 @@
       <p><strong>Contact Us:</strong></p>
       <p>Email: <a href="mailto:decomplicate001@gmail.com">decomplicate001@gmail.com</a></p>
     </div>
+
+    <button id="enterAppBtn">Enter MealIDEA</button>
   </div>
 
   <!-- App Content -->
@@ -44,42 +48,26 @@
 
     <div class="tab-content" id="tab-feedback">
       <h2>Your Feedback</h2>
-      <iframe src="https://script.google.com/macros/s/AKfycbzA9Kp00Hr_7NghuLx4NoCL-sM81-Ar6Y_FMvhrqrsklKca1JZXF1BZjmXDN9-a9uVoVw/exec" title="Feedback"></iframe>
+      <iframe src="https://script.google.com/macros/s/AKfycbzA9Kp00Hr_7NghuLx4NoCL-sM81-Ar6Y_FMvhr" title="Feedback"></iframe>
     </div>
 
     <div class="tab-content" id="tab-subscribe">
-      <h2>Subscribe for Updates</h2>
-      <button onclick="window.open('https://forms.gle/PqhH5FhmSLpBxvxR9', '_blank')">
-        🔔 Subscribe Now
-      </button>
+      <h2>Subscribe</h2>
+      <p>Stay updated with the latest meal plans and recipes.</p>
+      <button>Subscribe Now</button>
     </div>
+  </div>
 
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-      <button class="tab-btn active" data-tab="tab-meals">🍽 Meals</button>
-      <button class="tab-btn" data-tab="tab-history">📜 History</button>
-      <button class="tab-btn" data-tab="tab-feedback">💬 Feedback</button>
-      <button class="tab-btn" data-tab="tab-subscribe">🔔 Subscribe</button>
-    </nav>
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <button class="tab-btn active" onclick="switchTab('tab-meals')">Meals</button>
+    <button class="tab-btn" onclick="switchTab('tab-history')">History</button>
+    <button class="tab-btn" onclick="switchTab('tab-feedback')">Feedback</button>
+    <button class="tab-btn" onclick="switchTab('tab-subscribe')">Subscribe</button>
   </div>
 
   <script>
-    // Immediately show app content (no start button anymore)
-    document.getElementById('cover-page').style.display = 'none';
-    document.getElementById('app-content').style.display = 'block';
-
-    const tabs = document.querySelectorAll('.tab-btn');
-    const contents = document.querySelectorAll('.tab-content');
-
-    tabs.forEach(btn => {
-      btn.addEventListener('click', () => {
-        tabs.forEach(b => b.classList.remove('active'));
-        contents.forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(btn.dataset.tab).classList.add('active');
-      });
-    });
+    // JavaScript functions here (see below)
   </script>
-
 </body>
 </html>
