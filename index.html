@@ -2,19 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MealDoot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MealIDEA</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- Splash Page -->
+  <!-- Cover Page with About + Contact merged -->
   <div id="cover-page" class="active">
-    <img src="https://drive.google.com/uc?id=1W0MqvAHrYRyCR8kI8eRNPCJ29FPCzERf" alt="MealDoot Logo" class="logo-cover">
-    <h1>MealDoot</h1>
-    <p>Plan. Discover. Enjoy.</p>
-    <button id="enterAppBtn">Start</button>
+    <img src="https://drive.google.com/uc?export=view&id=1W0MqvAHrYRyCR8kI8eRNPCJ29FPCzERf" class="logo-cover" alt="MealIDEA Logo" />
+    <h1>MealIDEA</h1>
+    <p class="welcome-text">Welcome!</p>
+
+    <div class="about-text">
+      <p><strong>One goal — Ease Life!</strong></p>
+      <p>Inspired by India's rich vegetarian culinary heritage, MealIDEA simplifies your daily cooking with balanced, flavorful menus to brighten your table every day.</p>
+      <p>Just open the site and get your Day’s Menu 😀</p>
+      <p>If you find this helpful, please share with your friends! ☺️</p>
+    </div>
+
+    <div class="contact-text">
+      <p><strong>Contact Us:</strong></p>
+      <p>Email: <a href="mailto:decomplicate001@gmail.com">decomplicate001@gmail.com</a></p>
+    </div>
   </div>
 
   <!-- App Content -->
@@ -38,33 +49,24 @@
 
     <div class="tab-content" id="tab-subscribe">
       <h2>Subscribe for Updates</h2>
-      <button onclick="window.open('https://forms.gle/PqhH5FhmSLpBxvxR9', '_blank')">🔔 Subscribe Now</button>
+      <button onclick="window.open('https://forms.gle/PqhH5FhmSLpBxvxR9', '_blank')">
+        🔔 Subscribe Now
+      </button>
     </div>
 
-    <div class="tab-content" id="tab-about">
-      <h2>About Us</h2>
-      <p>One goal -- Ease Life!!</p>
-      <p>Our recipes draw inspiration from the rich and diverse culinary traditions across all regions of India—from the spicy and tangy flavors of the South to the hearty and wholesome dishes of the North, and everything in between. This ensures you enjoy a vibrant mix of tastes and nutrients that celebrate India’s incredible vegetarian heritage.</p>
-      <p>Whether you are a lifelong vegetarian or simply looking to add more plant-based meals to your routine, MealDoot is here to inspire and simplify your cooking journey with balanced, flavorful menus that bring joy to your table every day.</p>
-      <p>Let MealDoot be your trusted companion in making meal decisions effortless and enjoyable!</p>
-      <p>It's sole purpose is to ease the chaos of daily cooking menu. All you need to do is open the site and get your Day's Menu 😀</p>
-      <p>If you find this helpful do Share with your friends !!☺️</p>
-    </div>
-
+    <!-- Bottom Navigation -->
     <nav class="bottom-nav">
       <button class="tab-btn active" data-tab="tab-meals">🍽 Meals</button>
       <button class="tab-btn" data-tab="tab-history">📜 History</button>
       <button class="tab-btn" data-tab="tab-feedback">💬 Feedback</button>
       <button class="tab-btn" data-tab="tab-subscribe">🔔 Subscribe</button>
-      <button class="tab-btn" data-tab="tab-about">ℹ️ About</button>
     </nav>
   </div>
 
   <script>
-    document.getElementById('enterAppBtn').addEventListener('click', () => {
-      document.getElementById('cover-page').style.display = 'none';
-      document.getElementById('app-content').style.display = 'block';
-    });
+    // Immediately show app content (no start button anymore)
+    document.getElementById('cover-page').style.display = 'none';
+    document.getElementById('app-content').style.display = 'block';
 
     const tabs = document.querySelectorAll('.tab-btn');
     const contents = document.querySelectorAll('.tab-content');
@@ -78,5 +80,6 @@
       });
     });
   </script>
+
 </body>
 </html>
