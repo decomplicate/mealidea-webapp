@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MealIDEA App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🍽️ MealIDEA</h1>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-button active" onclick="showTab('breakfast')">🍳 Breakfast</button>
+    <button class="tab-button" onclick="showTab('lunch')">🥗 Lunch</button>
+    <button class="tab-button" onclick="showTab('dinner')">🍲 Dinner</button>
+    <button class="tab-button" onclick="showTab('subscribe')">📬 Subscribe</button>
+  </nav>
+
+  <main>
+    <section id="breakfast" class="tab-content active">
+      <h2>🍳 Breakfast</h2>
+      <iframe src="https://script.google.com/macros/s/AKfycbx-APEkUYNS3YxOIG1OcIX32nCBAnYd2mmVh0ADrV51me9G8iJnAqxg65ETsEsJhEAHCw/exec"></iframe>
+    </section>
+
+    <section id="lunch" class="tab-content">
+      <h2>🥗 Lunch</h2>
+      <iframe src="https://script.google.com/macros/s/AKfycbxeBNiaKdEXr0LilVuCXi0Q9_6BGwVZ-HlIxLOBH7ml1h6vqlND-cGE6GeIxoUq6Ttv/exec"></iframe>
+    </section>
+
+    <section id="dinner" class="tab-content">
+      <h2>🍲 Dinner</h2>
+      <iframe src="https://script.google.com/macros/s/AKfycbyLG9ZOI4G84_bGrLe9I9UQeuNCYjziAQwQvtjKtU0tq3ZhuOHQpazO_ay75l3esY57/exec"></iframe>
+    </section>
+
+    <section id="subscribe" class="tab-content">
+      <h2>📬 Subscribe</h2>
+      <iframe src="https://forms.gle/PqhH5FhmSLpBxvxR9"></iframe>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 MealIDEA</p>
+  </footer>
+
+  <script>
+    function showTab(tabId) {
+      const tabs = document.querySelectorAll('.tab-content');
+      const buttons = document.querySelectorAll('.tab-button');
+
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.id === tabId) {
+          tab.classList.add('active');
+        }
+      });
+
+      buttons.forEach(button => {
+        button.classList.remove('active');
+        if (button.textContent.includes(tabId.charAt(0).toUpperCase() + tabId.slice(1))) {
+          button.classList.add('active');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
