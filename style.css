@@ -135,14 +135,14 @@ html, body {
 
 /* Increase Today's Meals container height by 1px */
 #tab-meals {
-  min-height: calc(100vh - 59px); /* bottom nav is 60px; 1px taller */
+  min-height: calc(100vh - 60px); /* bottom nav is 60px; 1px taller */
 }
 
 /* Iframes */
 #tab-meals iframe,
 #tab-feedback iframe {
   width: 100%;
-  height: 30vh;
+  height: 50vh;
   border: none;
   border-radius: 12px;
   margin-bottom: 1rem;
@@ -238,7 +238,7 @@ html, body {
   }
 
   #tab-meals {
-    min-height: calc(100vh - 59px);
+    min-height: calc(100vh - 60px);
   }
 
   #tab-meals iframe,
