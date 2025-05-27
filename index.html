@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MealIDEA</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
+  <!-- Splash Page -->
   <div id="cover-page" class="active">
-    <img src="https://drive.google.com/uc?export=view&id=1W0MqvAHrYRyCR8kI8eRNPCJ29FPCzERf" class="logo-cover" alt="MealIDEA Logo">
+    <div class="logo-cover-text">🥗 MealIDEA</div>
     <h1>MealIDEA</h1>
     <p class="tagline">Plan. Discover. Enjoy.</p>
     <p class="about-text">
@@ -22,6 +23,7 @@
     <button id="enterAppBtn">Start</button>
   </div>
 
+  <!-- App Content -->
   <div id="app-content">
     <div class="tab-content active" id="tab-meals">
       <h2>Today's Meals</h2>
@@ -42,11 +44,10 @@
 
     <div class="tab-content" id="tab-subscribe">
       <h2>Subscribe for Updates</h2>
-      <button onclick="window.open('https://forms.gle/PqhH5FhmSLpBxvxR9', '_blank')">
-        🔔 Subscribe Now
-      </button>
+      <button onclick="window.open('https://forms.gle/PqhH5FhmSLpBxvxR9', '_blank')">🔔 Subscribe Now</button>
     </div>
 
+    <!-- Bottom Navigation -->
     <nav class="bottom-nav">
       <button class="tab-btn active" data-tab="tab-meals">🍽 Meals</button>
       <button class="tab-btn" data-tab="tab-history">📜 History</button>
@@ -58,7 +59,7 @@
   <script>
     document.getElementById('enterAppBtn').addEventListener('click', () => {
       document.getElementById('cover-page').style.display = 'none';
-      document.getElementById('app-content').style.display = 'block';
+      document.getElementById('app-content').style.display = 'flex';
     });
 
     const tabs = document.querySelectorAll('.tab-btn');
