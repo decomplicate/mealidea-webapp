@@ -7,11 +7,11 @@
 body, html {
   height: 100%;
   font-family: 'Poppins', sans-serif;
-  background: #f0f4f8;
   overflow: hidden;
+  background: #f0f4f8;
 }
 
-/* Cover Page */
+/* Splash Page */
 #cover-page {
   height: 100vh;
   width: 100vw;
@@ -24,41 +24,49 @@ body, html {
   text-align: center;
   padding: 2rem;
 }
+
 .logo-cover {
   width: 120px;
   margin-bottom: 2rem;
   border-radius: 50%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
+
 #cover-page h1 {
-  font-size: 2.8rem;
-  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
 }
-.welcome-text {
-  font-size: 1.3rem;
-  font-weight: 600;
+
+.tagline {
+  font-size: 1.2rem;
   margin-bottom: 1rem;
+  font-weight: 500;
 }
+
 .about-text {
-  font-size: 1rem;
-  max-width: 400px;
-  margin: 0 auto 1rem;
-  color: #f0f0f0;
-  line-height: 1.4;
-}
-.contact-text {
+  max-width: 500px;
   font-size: 0.95rem;
-  color: #e0e0e0;
-  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  opacity: 0.9;
+  margin: 1rem auto;
+  padding: 0 1rem;
 }
+
+.contact-text {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
 .contact-text a {
   color: #FFC107;
   text-decoration: none;
 }
+
 .contact-text a:hover {
   text-decoration: underline;
 }
-#enterAppBtn {
+
+#cover-page button {
   padding: 1rem 2rem;
   background: #FFC107;
   border: none;
@@ -66,15 +74,16 @@ body, html {
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
+  margin-top: 1.5rem;
   color: #333;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-#enterAppBtn:hover {
+#cover-page button:hover {
   background-color: #ffdb59;
   transform: scale(1.03);
 }
 
-/* App Pages */
+/* App Layout */
 #app-content {
   display: none;
   height: 100vh;
@@ -99,7 +108,7 @@ body, html {
 }
 iframe {
   width: 100%;
-  height: 26vh;
+  height: 22vh;
   border: none;
   border-radius: 12px;
   margin-bottom: 1rem;
@@ -125,7 +134,7 @@ iframe {
   transform: scale(1.02);
 }
 
-/* Navigation */
+/* Bottom Navigation */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -147,6 +156,7 @@ iframe {
   color: #4CAF50;
   font-weight: bold;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 .tab-btn.active {
   background: #4CAF50;
@@ -156,12 +166,12 @@ iframe {
 /* Responsive */
 @media (max-width: 600px) {
   #cover-page h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
-  .about-text {
-    font-size: 0.95rem;
+  .tagline {
+    font-size: 1rem;
   }
   iframe {
-    height: 22vh;
+    height: 20vh;
   }
 }
