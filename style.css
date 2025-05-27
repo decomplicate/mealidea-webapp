@@ -265,6 +265,7 @@ html, body {
   padding: 10px;
   box-sizing: border-box;
   overflow: hidden;  /* avoid double scrollbars */
+ border: 2px solid red;
 }
 
 #tab-feedback iframe {
@@ -275,6 +276,7 @@ html, body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   min-height: 0; /* prevents flex overflow */
   margin-bottom: 0;
+border: 2px dashed blue;
 }
 
   .tab-content h2 {
