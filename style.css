@@ -260,11 +260,18 @@ html, body {
   }
 
   #tab-feedback {
-    min-height: 70vh;
+  height: calc(100vh - 70px); /* Full viewport minus bottom nav */
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
   }
 
   #tab-feedback iframe {
-    height: 65vh;
+    flex-grow: 1;
+  width: 100%;
+  border: none;
+  border-radius: 12px;
   }
 
   .tab-content h2 {
