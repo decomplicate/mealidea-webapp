@@ -26,16 +26,19 @@ html, body {
 }
 
 .logo-cover-text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 2rem;
   background: white;
+  color: #4CAF50;
+  padding: 1rem 1.5rem;
   border-radius: 50px;
-  padding: 0.75rem 1.25rem;
+  font-weight: bold;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   margin-bottom: 2rem;
-  font-weight: bold;
-  color: #4CAF50;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  user-select: none;
+  justify-content: center;
 }
 
 .logo-icon {
@@ -129,7 +132,7 @@ html, body {
 
 /* Increase Today's Meals container height by 1px */
 #tab-meals {
-  min-height: calc(100vh - 59px); /* bottom nav is 60px, so 59px = 1px taller */
+  min-height: calc(100vh - 57px); /* bottom nav is 60px, so 59px = 1px taller */
 }
 
 /* Iframes */
@@ -239,7 +242,7 @@ html, body {
   }
 
   #tab-meals {
-    min-height: calc(100vh - 59px); /* Keep same 1px extra */
+    min-height: calc(100vh - 57px); /* Keep same 1px extra */
   }
 
   #tab-meals iframe,
