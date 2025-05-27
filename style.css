@@ -103,12 +103,10 @@ html, body {
 
 /* App Layout */
 #app-content {
-  display: none;
-  height: 100vh;
-  width: 100vw;
-  position: relative;
+  display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .tab-content {
@@ -120,7 +118,8 @@ html, body {
 }
 
 .tab-content.active {
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 
 .tab-content h2 {
@@ -259,20 +258,22 @@ html, body {
     height: 65vh;
   }
 
-  #tab-feedback {
-  height: calc(100vh - 70px); /* Full viewport minus bottom nav */
+#tab-feedback {
+  height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
   padding: 10px;
+  box-sizing: border-box;
 }
-  }
 
   #tab-feedback iframe {
-    flex-grow: 1;
+  flex-grow: 1;
   width: 100%;
   border: none;
   border-radius: 12px;
-  }
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 0; /* to prevent flexbox overflow issues */
+}
 
   .tab-content h2 {
     font-size: 1.2rem;
