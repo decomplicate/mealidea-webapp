@@ -1,73 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MealIDEA App</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MealIDEA - Smart Meal Planner</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>🍽️ MealIDEA</h1>
+    <img src="logo.png" alt="MealIDEA Logo" class="logo">
+    <h1>Welcome to MealIDEA</h1>
+    <p>Your personalized daily meal planner</p>
   </header>
 
-  <nav class="tabs">
-    <button class="tab-button active" onclick="showTab('breakfast')">🍳 Breakfast</button>
-    <button class="tab-button" onclick="showTab('lunch')">🥗 Lunch</button>
-    <button class="tab-button" onclick="showTab('dinner')">🍲 Dinner</button>
-    <button class="tab-button" onclick="showTab('subscribe')">📬 Subscribe</button>
-    <button class="tab-button" onclick="showTab('date-check')">📅 Check Date</button>
-  </nav>
-
   <main>
-    <section id="breakfast" class="tab-content active">
-      <h2>🍳 Breakfast</h2>
-      <iframe src="https://script.google.com/macros/s/AKfycbx-APEkUYNS3YxOIG1OcIX32nCBAnYd2mmVh0ADrV51me9G8iJnAqxg65ETsEsJhEAHCw/exec"></iframe>
+    <section class="intro">
+      <p>Discover nutritious and delicious meal plans tailored just for you. Click below to see today's meal suggestions or select a different date.</p>
     </section>
 
-    <section id="lunch" class="tab-content">
-      <h2>🥗 Lunch</h2>
-      <iframe src="https://script.google.com/macros/s/AKfycbxeBNiaKdEXr0LilVuCXi0Q9_6BGwVZ-HlIxLOBH7ml1h6vqlND-cGE6GeIxoUq6Ttv/exec"></iframe>
+    <section class="actions">
+      <button onclick="showMeals('today')">Today's Meals</button>
+      <button onclick="showDateSelector()">Select Date</button>
     </section>
 
-    <section id="dinner" class="tab-content">
-      <h2>🍲 Dinner</h2>
-      <iframe src="https://script.google.com/macros/s/AKfycbyLG9ZOI4G84_bGrLe9I9UQeuNCYjziAQwQvtjKtU0tq3ZhuOHQpazO_ay75l3esY57/exec"></iframe>
+    <section id="meal-plan" class="meal-plan">
+      <!-- Meal plan content will be dynamically inserted here -->
     </section>
 
-    <section id="subscribe" class="tab-content">
-      <h2>📬 Subscribe</h2>
-      <iframe src="https://forms.gle/PqhH5FhmSLpBxvxR9"></iframe>
+    <section id="date-selector" class="date-selector" style="display: none;">
+      <label for="meal-date">Choose a date:</label>
+      <input type="date" id="meal-date" name="meal-date">
+      <button onclick="fetchMeals()">Show Meals</button>
     </section>
 
-    <section id="date-check" class="tab-content">
-      <h2>📅 View Plan for a Different Date</h2>
-      <iframe src="https://script.google.com/macros/s/AKfycbzA9Kp00Hr_7NghuLx4NoCL-sM81-Ar6Y_FMvhrqrsklKca1JZXF1BZjmXDN9-a9uVoVw/exec"></iframe>
+    <section class="subscribe">
+      <p>Stay updated with our latest meal plans and tips. Subscribe to our newsletter!</p>
+      <iframe src="https://forms.gle/PqhH5FhmSLpBxvxR9" width="100%" height="500" frameborder="0">Loading…</iframe>
     </section>
   </main>
 
   <footer>
-    <p>© 2025 MealIDEA</p>
+    <p>&copy; 2025 MealIDEA. All rights reserved.</p>
   </footer>
 
   <script>
-    function showTab(tabId) {
-      const tabs = document.querySelectorAll('.tab-content');
-      const buttons = document.querySelectorAll('.tab-button');
+    function showMeals(day) {
+      // Fetch and display meal plans for the specified day
+      document.getElementById('meal-plan').innerHTML = `<h2>Meals for ${day}</h2><p>Loading...</p>`;
+      // Replace with actual data fetching logic
+    }
 
-      tabs.forEach(tab => {
-        tab.classList.remove('active');
-        if (tab.id === tabId) {
-          tab.classList.add('active');
-        }
-      });
+    function showDateSelector() {
+      document.getElementById('date-selector').style.display = 'block';
+    }
 
-      buttons.forEach(button => {
-        button.classList.remove('active');
-        if (button.getAttribute("onclick").includes(tabId)) {
-          button.classList.add('active');
-        }
-      });
+    function fetchMeals() {
+      const date = document.getElementById('meal-date').value;
+      if (date) {
+        // Fetch and display meal plans for the selected date
+        document.getElementById('meal-plan').innerHTML = `<h2>Meals for ${date}</h2><p>Loading...</p>`;
+        // Replace with actual data fetching logic
+      } else {
+        alert('Please select a date.');
+      }
     }
   </script>
 </body>
