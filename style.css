@@ -258,25 +258,27 @@ html, body {
     height: 65vh;
   }
 
-
-  .tab-content h2 {
-    font-size: 1.2rem;
-  }
-}
 #tab-feedback {
-  height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 60px); /* full height minus bottom nav */
   padding: 10px;
   box-sizing: border-box;
 }
 
-  #tab-feedback iframe {
+#tab-feedback iframe {
   flex-grow: 1;
   width: 100%;
   border: none;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  min-height: 0; /* to prevent flexbox overflow issues */
+  min-height: 0; /* prevent flexbox overflow */
+  margin-bottom: 0; /* optional */
 }
+
+  .tab-content h2 {
+    font-size: 1.2rem;
+  }
+}
+
 
