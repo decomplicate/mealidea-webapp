@@ -243,7 +243,7 @@ html, body {
 
   #tab-meals iframe,
   #tab-feedback iframe {
-    height: 22vh;
+    height: 90vh;
   }
 
   #tab-history iframe {
