@@ -5,85 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MealIDEA - Your Personalized Meal Planner</title>
   <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
   <div id="cover-page" class="active">
-    <img src="https://drive.google.com/file/d/1W0MqvAHrYRyCR8kI8eRNPCJ29FPCzERf/view?usp=sharing" alt="MealIDEA Logo" class="logo-cover" />
-    <h1>Welcome to MealIDEA</h1>
-    <p>Your ultimate partner for personalized meal planning. Organize your daily meals, explore new recipes, and track your nutrition with ease.</p>
+    <img src="YOUR_DIRECT_GOOGLE_DRIVE_LOGO_URL_HERE" alt="MealIDEA Logo" class="logo-cover" />
+    <h1>MealIDEA</h1>
+    <p>Your journey to delicious, organized meals starts here. Plan, discover, and enjoy!</p>
     <button id="enterAppBtn">Start Planning</button>
   </div>
 
   <div id="app-content">
     <header>
-      <img src="https://drive.google.com/file/d/1W0MqvAHrYRyCR8kI8eRNPCJ29FPCzERf/view?usp=sharing" alt="MealIDEA Logo" class="logo" />
+      <img src="YOUR_DIRECT_GOOGLE_DRIVE_LOGO_URL_HERE" alt="MealIDEA Logo" class="logo" />
       <h1>MealIDEA</h1>
       <p>Plan your meals, daily and beyond</p>
     </header>
 
     <nav>
-      <button class="tab-button active" onclick="showMeal('breakfast')">Breakfast</button>
-      <button class="tab-button" onclick="showMeal('lunch')">Lunch</button>
-      <button class="tab-button" onclick="showMeal('dinner')">Dinner</button>
-      <button class="tab-button" onclick="showMeal('dateselector')">📅 Date</button>
-      <button class="tab-button" onclick="showMeal('comments')">💬 Comments</button>
+      <button class="tab-button active" data-meal="breakfast">Breakfast</button>
+      <button class="tab-button" data-meal="lunch">Lunch</button>
+      <button class="tab-button" data-meal="dinner">Dinner</button>
+      <button class="tab-button" data-meal="dateselector">📅 Date</button>
+      <button class="tab-button" data-meal="comments">💬 Comments</button>
     </nav>
 
     <main>
       <section id="breakfast" class="meal-section active">
-        <h2>Breakfast</h2>
+        <h2>Breakfast Ideas</h2>
         <iframe src="https://script.google.com/macros/s/AKfycbx-APEkUYNS3YxOIG1OcIX32nCBAnYd2mmVh0ADrV51me9G8iJnAqxg65ETsEsJhEAHCw/exec" title="Breakfast"></iframe>
       </section>
 
       <section id="lunch" class="meal-section">
-        <h2>Lunch</h2>
+        <h2>Lunch Delights</h2>
         <iframe src="https://script.google.com/macros/s/AKfycbxeBNiaKdEXr0LilVuCXi0Q9_6BGwVZ-HlIxLOBH7ml1h6vqlND-cGE6GeIxoUq6Ttv/exec" title="Lunch"></iframe>
       </section>
 
       <section id="dinner" class="meal-section">
-        <h2>Dinner</h2>
+        <h2>Dinner Inspirations</h2>
         <iframe src="https://script.google.com/macros/s/AKfycbyLG9ZOI4G84_bGrLe9I9UQeuNCYjziAQwQvtjKtU0tq3ZhuOHQpazO_ay75l3esY57/exec" title="Dinner"></iframe>
       </section>
 
       <section id="dateselector" class="meal-section">
-        <h2>Pick a Date</h2>
+        <h2>Select a Date</h2>
         <iframe src="https://script.google.com/macros/s/AKfycbzR6ngzyaxIZWTaCqq9F2aIc-qtqamve8JsGG4sslLYJfrHvASdA2w4lH0eRqeSNZHarg/exec" title="Choose Another Date"></iframe>
       </section>
 
       <section id="comments" class="meal-section">
-        <h2>Like & Comment</h2>
+        <h2>Your Feedback</h2>
         <iframe src="https://script.google.com/macros/s/AKfycbzA9Kp00Hr_7NghuLx4NoCL-sM81-Ar6Y_FMvhrqrsklKca1JZXF1BZjmXDN9-a9uVoVw/exec" title="Like and Comment"></iframe>
       </section>
     </main>
 
     <footer>
-      <button id="subscribeBtn">🔔 Subscribe</button>
-      <p>&copy; 2025 MealIDEA</p>
+      <button id="subscribeBtn">🔔 Subscribe to Updates</button>
+      <p>&copy; 2025 MealIDEA. All rights reserved.</p>
     </footer>
   </div>
 
   <script>
-    function showMeal(meal) {
-      document.querySelectorAll('.meal-section').forEach(section => {
-        section.classList.remove('active');
-      });
-      document.getElementById(meal).classList.add('active');
+    document.addEventListener('DOMContentLoaded', () => {
+      // Function to show a specific meal section
+      function showMeal(mealId) {
+        document.querySelectorAll('.meal-section').forEach(section => {
+          section.classList.remove('active');
+        });
+        document.getElementById(mealId).classList.add('active');
 
+        document.querySelectorAll('.tab-button').forEach(button => {
+          button.classList.remove('active');
+        });
+        document.querySelector(`.tab-button[data-meal="${mealId}"]`).classList.add('active');
+      }
+
+      // Event listeners for tab buttons
       document.querySelectorAll('.tab-button').forEach(button => {
-        button.classList.remove('active');
+        button.addEventListener('click', (event) => {
+          showMeal(event.target.dataset.meal);
+        });
       });
-      document.querySelector(`button[onclick="showMeal('${meal}')"]`).classList.add('active');
-    }
 
-    document.getElementById('subscribeBtn').addEventListener('click', () => {
-      window.open('https://forms.gle/PqhH5FhmSLpBxvxR9', '_blank');
-    });
+      // Subscribe button logic
+      document.getElementById('subscribeBtn').addEventListener('click', () => {
+        window.open('https://forms.gle/PqhH5FhmSLpBxvxR9', '_blank');
+      });
 
-    // Cover page logic
-    document.getElementById('enterAppBtn').addEventListener('click', () => {
-      document.getElementById('cover-page').classList.remove('active');
-      document.getElementById('app-content').classList.add('active');
+      // Cover page logic
+      const coverPage = document.getElementById('cover-page');
+      const appContent = document.getElementById('app-content');
+      const enterAppBtn = document.getElementById('enterAppBtn');
+
+      // Initially hide app content and show cover page
+      appContent.style.display = 'none'; // Initially hide app content
+      coverPage.classList.add('active'); // Show cover page
+
+      enterAppBtn.addEventListener('click', () => {
+        coverPage.classList.remove('active');
+        setTimeout(() => { // Delay hiding for transition effect
+          coverPage.style.display = 'none';
+          appContent.style.display = 'block'; // Show app content
+          appContent.classList.add('visible'); // Add a class for potential entrance animation
+          // If you want to automatically show the first tab (Breakfast) after entering
+          showMeal('breakfast');
+        }, 500); // Match this with CSS transition duration
+      });
+
+      // Initialize the first meal section to be active when app content is loaded (or after cover page)
+      // This is handled by showMeal('breakfast') in the enterAppBtn click.
     });
   </script>
 </body>

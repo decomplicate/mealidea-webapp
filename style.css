@@ -1,11 +1,31 @@
+/* Color Palette */
+:root {
+  --primary-color: #4CAF50; /* Green - for primary actions, header */
+  --primary-dark: #388e3c; /* Darker Green */
+  --secondary-color: #FFC107; /* Amber/Yellow - for accents, active states */
+  --background-light: #f7f9fc; /* Light Grey-Blue */
+  --text-dark: #333; /* Dark Grey */
+  --text-light: #fff; /* White */
+  --border-light: #ddd;
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.2);
+}
+
 /* General Styling */
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Montserrat', sans-serif; /* Body font */
   margin: 0;
   padding: 0;
-  background: #f7f9fc;
-  color: #333;
-  overflow-x: hidden; /* Prevent horizontal scroll on small screens */
+  background: var(--background-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif; /* Heading font */
+  color: var(--primary-color);
+  margin-top: 0;
 }
 
 /* Cover Page Styling */
@@ -16,232 +36,320 @@ body {
   align-items: center;
   text-align: center;
   min-height: 100vh; /* Full viewport height */
-  background-color: #4CAF50; /* Match your header color */
-  color: white;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); /* Gradient background */
+  color: var(--text-light);
   padding: 20px;
-  box-sizing: border-box; /* Include padding in element's total width and height */
-  transition: opacity 0.5s ease-out; /* Smooth transition for hiding */
-  opacity: 0; /* Hidden by default */
+  box-sizing: border-box;
+  opacity: 0; /* Hidden by default for JS transition */
   pointer-events: none; /* Disable interactions when hidden */
+  transition: opacity 0.5s ease-out; /* Smooth transition */
 }
 
 #cover-page.active {
   opacity: 1; /* Visible when active */
-  pointer-events: auto; /* Enable interactions when active */
+  pointer-events: auto; /* Enable interactions */
 }
 
 #cover-page .logo-cover {
-  width: 120px; /* Larger logo for cover page */
+  width: 150px; /* Larger logo for cover page */
   margin-bottom: 2rem;
   border-radius: 50%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 20px var(--shadow-medium);
+  animation: pulse 2s infinite ease-in-out; /* Subtle pulse animation */
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 #cover-page h1 {
-  font-size: 2.5em;
+  font-size: 3em;
   margin-bottom: 1rem;
+  color: var(--text-light); /* Ensure heading is white */
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
 #cover-page p {
-  font-size: 1.1em;
-  line-height: 1.6;
-  max-width: 600px;
-  margin-bottom: 2rem;
+  font-size: 1.2em;
+  line-height: 1.8;
+  max-width: 700px;
+  margin-bottom: 3rem;
+  opacity: 0.9;
 }
 
 #cover-page button {
-  background-color: white;
-  color: #4CAF50;
+  background-color: var(--secondary-color);
+  color: var(--text-dark);
   border: none;
-  padding: 0.8rem 2rem;
-  font-size: 1.2em;
-  border-radius: 50px; /* Pill-shaped button */
+  padding: 1rem 2.5rem;
+  font-size: 1.3em;
+  font-weight: 600;
+  border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 #cover-page button:hover {
-  background-color: #e0e0e0;
-  transform: translateY(-2px);
+  background-color: #ffda6f; /* Lighter amber on hover */
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* App Content Styling (initially hidden) */
+/* Main App Content Styling (initially hidden) */
 #app-content {
-  display: none; /* Hidden by default */
+  display: none; /* Hidden by default via JS */
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
 }
 
-#app-content.active {
-  display: block; /* Shown when active */
+#app-content.visible {
+  opacity: 1; /* Visible when active */
 }
 
 
 header {
-  background-color: #4CAF50;
-  color: white;
-  padding: 1rem 1rem; /* Slightly reduced padding */
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 1.5rem 1rem;
   text-align: center;
+  box-shadow: 0 2px 8px var(--shadow-light);
 }
 
 header .logo {
-  width: 70px; /* Slightly smaller logo for header */
-  margin-bottom: 0.5rem;
+  width: 90px;
+  margin-bottom: 0.8rem;
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px var(--shadow-medium);
 }
 
-h1 {
+header h1 {
   margin: 0;
-  font-size: 1.8em; /* Adjusted for mobile */
+  font-size: 2.2em;
+  color: var(--text-light);
 }
 
 header p {
-    font-size: 0.9em;
+    font-size: 1em;
     margin: 0;
+    opacity: 0.9;
 }
 
+/* Navigation - Tabs */
 nav {
   display: flex;
-  justify-content: space-around;
-  background: white;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #ddd;
-  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
-  gap: 5px; /* Space between buttons */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow */
+  justify-content: center; /* Center tabs */
+  background: var(--text-light);
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--border-light);
+  flex-wrap: wrap;
+  gap: 10px; /* More space between buttons */
+  box-shadow: 0 2px 8px var(--shadow-light);
+  position: sticky; /* Make nav sticky */
+  top: 0;
+  z-index: 1000; /* Ensure it stays on top */
 }
 
 .tab-button {
   background: none;
   border: none;
-  color: #4CAF50;
-  font-size: 0.9rem; /* Adjusted for mobile */
-  padding: 0.8rem 0.5rem; /* Reduced padding */
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.8rem 1.2rem;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  flex-grow: 1; /* Allow buttons to grow and fill space */
+  transition: all 0.3s ease;
+  border-radius: 8px; /* Slightly rounded buttons */
   text-align: center;
-  white-space: nowrap; /* Prevent text from wrapping within buttons */
+  white-space: nowrap;
+  flex-grow: 1; /* Allow buttons to grow */
+  max-width: 20%; /* Limit width on larger screens */
+}
+
+.tab-button:hover {
+  background-color: rgba(76, 175, 80, 0.1); /* Light green hover effect */
+  color: var(--primary-dark);
 }
 
 .tab-button.active {
-  border-bottom: 3px solid #4CAF50;
-  font-weight: bold;
-  color: #388e3c; /* Slightly darker active color */
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  border-bottom: 3px solid var(--secondary-color); /* Highlight with accent color */
+  transform: translateY(-2px); /* Slight lift */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Main Content Area */
 main {
-  padding: 1rem;
-  max-width: 1000px;
-  margin: auto;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 1.5rem auto; /* More margin top/bottom */
 }
 
 .meal-section {
   display: none;
-  margin-bottom: 2rem;
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background-color: var(--text-light);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px var(--shadow-light);
+  animation: fadeIn 0.6s ease-out; /* Fade in animation */
 }
 
 .meal-section.active {
   display: block;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .meal-section h2 {
-    color: #4CAF50;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    font-size: 1.5em;
-    text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.8em;
+  text-align: center;
+  border-bottom: 2px solid var(--secondary-color);
+  padding-bottom: 10px;
 }
 
 iframe {
   width: 100%;
-  height: 350px; /* Slightly reduced height for mobile */
+  height: 500px; /* Default height for desktop */
   border: none;
   border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  margin-top: 1rem;
-  overflow: hidden; /* Hide scrollbars if content overflows */
+  box-shadow: 0 2px 12px var(--shadow-light);
+  margin-top: 1.5rem;
+  background-color: var(--background-light); /* Fallback background */
 }
 
+/* Footer */
 footer {
   text-align: center;
-  padding: 1rem;
-  background: #fff;
-  border-top: 1px solid #ccc;
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  background: var(--text-light);
+  border-top: 1px solid var(--border-light);
+  box-shadow: 0 -2px 8px var(--shadow-light);
+  margin-top: 2rem;
 }
 
 footer button {
-  background-color: #4CAF50;
-  color: white;
+  background-color: var(--secondary-color);
+  color: var(--text-dark);
   border: none;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  border-radius: 5px;
+  padding: 0.8rem 1.8rem;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  border-radius: 50px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
 footer button:hover {
-  background-color: #388e3c;
+  background-color: #ffda6f;
+  transform: translateY(-2px) scale(1.02);
+}
+
+footer p {
+  font-size: 0.9em;
+  color: #666;
 }
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
-  h1 {
+  #cover-page h1 {
+    font-size: 2.5em;
+  }
+  #cover-page p {
+    font-size: 1em;
+  }
+  #cover-page button {
+    font-size: 1.1em;
+    padding: 0.8rem 2rem;
+  }
+
+  header h1 {
     font-size: 1.8em;
   }
-
-  header p {
-    font-size: 0.8em;
+  header .logo {
+    width: 70px;
   }
 
+  nav {
+    padding: 0.5rem;
+    gap: 5px;
+    justify-content: space-around; /* Spread buttons out more evenly */
+  }
   .tab-button {
-    font-size: 0.85rem;
-    padding: 0.7rem 0.4rem;
+    font-size: 0.95rem;
+    padding: 0.7rem 0.8rem;
+    flex-basis: auto; /* Reset flex basis */
+    max-width: none; /* Remove max-width restriction */
+  }
+  .tab-button.active {
+    border-bottom: 2px solid var(--secondary-color);
+  }
+
+  main {
+    padding: 1rem;
+    margin: 1rem auto;
+  }
+
+  .meal-section {
+    padding: 1.5rem;
   }
 
   iframe {
-    height: 300px; /* Further reduce iframe height on smaller screens */
+    height: 400px; /* Adjusted height for tablets */
   }
 
-  .meal-section h2 {
-    font-size: 1.4em;
+  footer button {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
-  header {
-    padding: 1rem 0.5rem;
+  #cover-page h1 {
+    font-size: 2em;
+  }
+  #cover-page p {
+    font-size: 0.9em;
+  }
+  #cover-page button {
+    font-size: 1em;
+    padding: 0.7rem 1.8rem;
   }
 
-  h1 {
+  header h1 {
     font-size: 1.5em;
   }
-
   header p {
-    font-size: 0.75em;
+    font-size: 0.8em;
   }
 
   nav {
     flex-direction: column; /* Stack buttons vertically on very small screens */
+    align-items: stretch; /* Stretch to full width */
     padding: 0.5rem;
+    gap: 0; /* Remove gap when stacked */
   }
-
   .tab-button {
     width: 100%; /* Full width buttons */
     margin-bottom: 5px; /* Space between stacked buttons */
     padding: 0.8rem 0;
+    border-radius: 0; /* Square buttons when stacked */
   }
-
+  .tab-button:last-child {
+    margin-bottom: 0; /* No margin on the last stacked button */
+  }
   .tab-button.active {
     border-bottom: none; /* No bottom border when stacked */
-    border-left: 5px solid #4CAF50; /* Use left border for active state */
+    border-left: 5px solid var(--secondary-color); /* Use left border for active state */
+    border-radius: 0; /* Ensure no rounding */
   }
 
   main {
@@ -252,13 +360,16 @@ footer button:hover {
     padding: 1rem;
   }
 
+  .meal-section h2 {
+    font-size: 1.4em;
+    margin-bottom: 1rem;
+  }
+
   iframe {
-    height: 280px; /* Minimum iframe height */
+    height: 300px; /* Minimum iframe height for phones */
   }
 
   footer button {
     width: 90%;
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
   }
 }
