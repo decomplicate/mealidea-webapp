@@ -144,8 +144,7 @@ html, body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-#tab-history,
-#tab-feedback {
+#tab-history {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -155,8 +154,7 @@ html, body {
   overflow: hidden;
 }
 
-#tab-history iframe,
-#tab-feedback iframe {
+#tab-history iframe {
   flex-grow: 1;
   min-height: 0;
   width: 100%;
@@ -166,7 +164,21 @@ html, body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+#tab-feedback {
+  height: calc(100vh - 60px); /* full height minus bottom nav */
+  padding: 0;                 /* remove padding */
+  overflow: hidden;           /* prevent internal scroll */
+  display: flex;
+  flex-direction: column;
+}
 
+#tab-feedback iframe {
+  flex-grow: 1;               /* fill all vertical space */
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
 
 /* Subscribe Button */
 #tab-subscribe button {
