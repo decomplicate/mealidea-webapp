@@ -144,28 +144,27 @@ html, body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-#tab-history iframe {
-  width: 100%;
-  height: 60vh;
-  border: none;
-  border-radius: 12px;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Updated Feedback tab container and iframe height */
+#tab-history,
 #tab-feedback {
-  min-height: 65vh;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Let it grow in its parent */
+  height: calc(100vh - 60px); /* Full height minus bottom nav */
+  padding: 1rem;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-#tab-feedback iframe {
+#tab-history iframe, #tab-feedback iframe {
   width: 100%;
-  height: 60vh;
+  height: 70vh;
   border: none;
   border-radius: 12px;
   margin-bottom: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
+
 
 /* Subscribe Button */
 #tab-subscribe button {
@@ -249,35 +248,14 @@ html, body {
     min-height: calc(100vh - 57px);
   }
 
-  #tab-meals iframe,
-  #tab-feedback iframe {
+  #tab-meals iframe
+ {
     height: 22vh;
   }
 
-  #tab-history iframe {
-    height: 65vh;
-  }
+ 
 
-#tab-feedback {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 60px); /* Full screen minus bottom nav */
-  padding: 0; /* Remove extra padding */
-  box-sizing: border-box;
-  overflow: hidden; /* Prevent scrollbars */
-}
 
-/* Feedback iframe fills remaining space */
-#tab-feedback iframe {
-  flex-grow: 1;
-  width: 100%;
-height: 100%;
-  border: none;
-  border-radius: 0; /* Optional: full width look */
-  box-shadow: none; /* Optional: remove shadow for full-page feel */
-  margin: 0; /* Remove bottom margin */
-  min-height: 0; /* Prevent overflow */
-}
 
   .tab-content h2 {
     font-size: 1.2rem;
