@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MealIDEA</title>
+  <title>Meal Idea</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     * {
@@ -125,24 +125,24 @@
     }
 
     .header-nav {
-      position: sticky; /* Keeps it at the top */
-      top: 0;
-      width: 100%;
-      background: #4CAF50;
-      color: white;
-      padding: 0.8rem 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      z-index: 50;
-    }
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: #4CAF50;
+  color: white;
+  padding: 0.4rem 0.8rem; /* Reduced vertical padding */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+}
 
     .header-nav .logo-text {
-        font-size: 1.5rem;
-        font-weight: 700;
-        letter-spacing: 1px;
-    }
+  font-size: 1.2rem; /* down from 1.5rem */
+  font-weight: 700;
+  letter-spacing: 1px;
+}
 
     .home-button {
       background: #FFC107;
@@ -168,7 +168,7 @@
       overflow-y: auto; /* Allows content within the tab to scroll */
       padding: 1rem;
       -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-      padding-bottom: 70px; /* Space for bottom nav */
+      padding-bottom: 30px; /* Space for bottom nav */
     }
 
     .tab-content.active {
@@ -184,13 +184,13 @@
     }
 
     iframe {
-      width: 100%;
-      height: 30vh;
-      border: none;
-      border-radius: 12px;
-      margin-bottom: 1rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
+  width: 100%;
+  height: 31vh; /* Slightly taller to fill space */
+  border: none;
+  border-radius: 12px;
+  margin-bottom: 0.5rem; /* Less spacing */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
     #tab-history iframe,
     #tab-feedback iframe,
@@ -225,7 +225,7 @@
       position: fixed;
       bottom: 0;
       width: 100%;
-      height: 60px;
+      height: 50px;
       background: white;
       display: flex;
       justify-content: space-around;
@@ -273,13 +273,13 @@
 
   <div id="app-content">
     <div class="header-nav">
-        <span class="logo-text">Meal-Idea</span>
+        <span class="logo-text">Meal Idea</span>
         <button id="homeButton" class="home-button">Home</button>
     </div>
 
     <div class="tab-content active" id="tab-meals">
       <h2>Today's Meals</h2>
-      <iframe src="https://script.google.com/macros/s/AKfycbx-APEkUYNS3YxOIG1OcIX32nCBAnYd2mmVh0ADrV51me9G8iJnAqxg65ETsJhEAHCw/exec"></iframe>
+      <iframe src="https://script.google.com/macros/s/AKfycbx-APEkUYNS3YxOIG1OcIX32nCBAnYd2mmVh0ADrV51me9G8iJnAqxg65ETsEsJhEAHCw/exec"></iframe>
       <iframe src="https://script.google.com/macros/s/AKfycbxeBNiaKdEXr0LilVuCXi0Q9_6BGwVZ-HlIxLOBH7ml1h6vqlND-cGE6GeIxoUq6Ttv/exec"></iframe>
       <iframe src="https://script.google.com/macros/s/AKfycbyLG9ZOI4G84_bGrLe9I9UQeuNCYjziAQwQvtjKtU0tq3ZhuOHQpazO_ay75l3esY57/exec"></iframe>
     </div>
@@ -311,51 +311,63 @@
 
   <script>
     const enterBtn = document.getElementById('enterAppBtn');
-    const coverPage = document.getElementById('cover-page');
-    const appContent = document.getElementById('app-content');
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-    const homeButton = document.getElementById('homeButton');
+  const coverPage = document.getElementById('cover-page');
+  const appContent = document.getElementById('app-content');
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+  const homeButton = document.getElementById('homeButton');
 
-    // Function to show a specific tab
     function showTab(tabId) {
-        tabButtons.forEach(b => b.classList.remove('active'));
-        tabContents.forEach(tc => tc.classList.remove('active'));
+    tabButtons.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(tc => tc.classList.remove('active'));
 
-        const newActiveButton = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
-        if (newActiveButton) {
-            newActiveButton.classList.add('active');
-        }
-        document.getElementById(tabId).classList.add('active');
+    const newActiveButton = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+    if (newActiveButton) newActiveButton.classList.add('active');
+
+    document.getElementById(tabId).classList.add('active');
+    localStorage.setItem('activeTab', tabId);
+  }
+
+  // Handle enter app (from cover page)
+  enterBtn.addEventListener('click', () => {
+    coverPage.classList.add('hidden');
+    localStorage.setItem('enteredApp', 'true');
+    localStorage.setItem('activeTab', 'tab-meals');
+  });
+
+  // Handle tab button clicks
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTabId = btn.getAttribute('data-tab');
+      showTab(targetTabId);
+    });
+  });
+
+  // Home button returns to cover page
+  homeButton.addEventListener('click', () => {
+    coverPage.classList.remove('hidden');
+    localStorage.removeItem('enteredApp'); // Optional: clear so next refresh shows welcome
+  });
+
+  // On page load: restore state
+  window.addEventListener('DOMContentLoaded', () => {
+    const enteredApp = localStorage.getItem('enteredApp');
+    const activeTab = localStorage.getItem('activeTab') || 'tab-meals';
+
+    if (enteredApp === 'true') {
+      coverPage.classList.add('hidden');
+      showTab(activeTab);
+    } else {
+      coverPage.classList.remove('hidden');
     }
+  });
 
-    enterBtn.addEventListener('click', () => {
-      coverPage.classList.add('hidden'); // Hide the cover page with a transition
-      // No need to change appContent display here, it's always flex
-    });
-
-    tabButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetTabId = btn.getAttribute('data-tab');
-        showTab(targetTabId);
-      });
-    });
-
-    homeButton.addEventListener('click', () => {
-        showTab('tab-meals'); // "Home" button activates the "Today's Meals" tab
-    });
-
-    // Initial state: hide app content until "Open" is clicked
-    // By default, app-content is flex, cover-page is on top.
-    // The `hidden` class and transition handle the display change.
-
-    // Function to reload cuisine frame (if needed, this won't be triggered by tab clicks anymore)
-    function reloadCuisineFrame() {
-      const frame = document.getElementById('cuisineFrame');
-      const src = frame.src;
-      frame.src = '';
-      setTimeout(() => frame.src = src, 100);
-    }
+  function reloadCuisineFrame() {
+    const frame = document.getElementById('cuisineFrame');
+    const src = frame.src;
+    frame.src = '';
+    setTimeout(() => frame.src = src, 100);
+  }
   </script>
 </body>
 </html>
