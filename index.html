@@ -14,7 +14,7 @@
 
     html, body {
       min-height: 100%;
-      overflow: hidden;
+      overflow: hidden; /* Prevents overall page scrolling */
       font-family: 'Poppins', sans-serif;
       background: #f0f4f8;
     }
@@ -30,6 +30,16 @@
       color: white;
       text-align: center;
       padding: 2rem;
+      position: absolute; /* Allows app-content to be behind it */
+      top: 0;
+      left: 0;
+      z-index: 100; /* Ensures it's on top */
+      transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    }
+
+    #cover-page.hidden {
+        opacity: 0;
+        visibility: hidden;
     }
 
     .logo-cover-text {
@@ -107,24 +117,62 @@
     }
 
     #app-content {
-      display: none;
-      height: 100vh;
-      width: 100vw;
+      display: flex; /* Always display flex */
       flex-direction: column;
-      overflow-y: auto;
+      height: 100vh; /* Takes full viewport height */
+      width: 100vw;
       background: #f7f9fc;
     }
 
+    .header-nav {
+      position: sticky; /* Keeps it at the top */
+      top: 0;
+      width: 100%;
+      background: #4CAF50;
+      color: white;
+      padding: 0.8rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 50;
+    }
+
+    .header-nav .logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .home-button {
+      background: #FFC107;
+      color: #333;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .home-button:hover {
+      background-color: #ffdb59;
+      transform: scale(1.03);
+    }
+
     .tab-content {
-      display: none;
+      display: none; /* Hidden by default */
+      flex-direction: column; /* For consistent layout within tabs */
       flex-grow: 1;
-      overflow-y: auto;
+      overflow-y: auto; /* Allows content within the tab to scroll */
       padding: 1rem;
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+      padding-bottom: 70px; /* Space for bottom nav */
     }
 
     .tab-content.active {
-      display: flex;
-      flex-direction: column;
+      display: flex; /* Only active tab is shown */
     }
 
     .tab-content h2 {
@@ -147,7 +195,7 @@
     #tab-history iframe,
     #tab-feedback iframe,
     #tab-cuisine iframe {
-      height: 80vh;
+      height: 80vh; /* Adjusted for full height within tab */
     }
 
     .subscribe-section {
@@ -183,6 +231,7 @@
       justify-content: space-around;
       border-top: 1px solid #ccc;
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+      z-index: 100;
     }
 
     .tab-btn {
@@ -195,6 +244,10 @@
       color: #4CAF50;
       font-weight: 700;
       cursor: pointer;
+      display: flex; /* For centering icon and text if you add icons */
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     .tab-btn.active {
@@ -205,10 +258,9 @@
 </head>
 <body>
 
-  <!-- Splash -->
   <div id="cover-page">
     <div class="logo-cover-text"><span class="logo-emoji">👨‍🍳</span></div>
-    <h1>Meal-Idea</h1>
+    <h1>Meal Idea</h1>
     <p class="tagline">Plan. Discover. Enjoy.</p>
     <p class="about-text">
       Bringing ease to your daily cooking decisions with diverse vegetarian Indian recipes—from North to South, East to West. One goal — Ease Life! 🌱
@@ -219,11 +271,15 @@
     <button id="enterAppBtn">Open</button>
   </div>
 
-  <!-- App -->
   <div id="app-content">
+    <div class="header-nav">
+        <span class="logo-text">Meal-Idea</span>
+        <button id="homeButton" class="home-button">Home</button>
+    </div>
+
     <div class="tab-content active" id="tab-meals">
       <h2>Today's Meals</h2>
-      <iframe src="https://script.google.com/macros/s/AKfycbx-APEkUYNS3YxOIG1OcIX32nCBAnYd2mmVh0ADrV51me9G8iJnAqxg65ETsEsJhEAHCw/exec"></iframe>
+      <iframe src="https://script.google.com/macros/s/AKfycbx-APEkUYNS3YxOIG1OcIX32nCBAnYd2mmVh0ADrV51me9G8iJnAqxg65ETsJhEAHCw/exec"></iframe>
       <iframe src="https://script.google.com/macros/s/AKfycbxeBNiaKdEXr0LilVuCXi0Q9_6BGwVZ-HlIxLOBH7ml1h6vqlND-cGE6GeIxoUq6Ttv/exec"></iframe>
       <iframe src="https://script.google.com/macros/s/AKfycbyLG9ZOI4G84_bGrLe9I9UQeuNCYjziAQwQvtjKtU0tq3ZhuOHQpazO_ay75l3esY57/exec"></iframe>
     </div>
@@ -242,12 +298,9 @@
     </div>
 
     <div class="tab-content" id="tab-cuisine">
-      
-      <iframe id="cuisineFrame" src="https://script.google.com/macros/s/AKfycby3txPr89nUfxrOcRSose8F4ud6cGiGT5gX0DntnG_dpYKXDz9ptyLnBtkWYdubiKnt/exec"></iframe>
-      
+           <iframe id="cuisineFrame" src="https://script.google.com/macros/s/AKfycby3txPr89nUfxrOcRSose8F4ud6cGiGT5gX0DntnG_dpYKXDz9ptyLnBtkWYdubiKnt/exec"></iframe>
     </div>
 
-    <!-- Navigation -->
     <nav class="bottom-nav">
       <button class="tab-btn active" data-tab="tab-meals">🍽 Meals</button>
       <button class="tab-btn" data-tab="tab-history">📜 History</button>
@@ -262,26 +315,41 @@
     const appContent = document.getElementById('app-content');
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
+    const homeButton = document.getElementById('homeButton');
+
+    // Function to show a specific tab
+    function showTab(tabId) {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(tc => tc.classList.remove('active'));
+
+        const newActiveButton = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+        if (newActiveButton) {
+            newActiveButton.classList.add('active');
+        }
+        document.getElementById(tabId).classList.add('active');
+    }
 
     enterBtn.addEventListener('click', () => {
-      coverPage.style.display = 'none';
-      appContent.style.display = 'flex';
+      coverPage.classList.add('hidden'); // Hide the cover page with a transition
+      // No need to change appContent display here, it's always flex
     });
 
     tabButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         const targetTabId = btn.getAttribute('data-tab');
-
-        // Deactivate all
-        tabButtons.forEach(b => b.classList.remove('active'));
-        tabContents.forEach(tc => tc.classList.remove('active'));
-
-        // Activate clicked
-        btn.classList.add('active');
-        document.getElementById(targetTabId).classList.add('active');
+        showTab(targetTabId);
       });
     });
 
+    homeButton.addEventListener('click', () => {
+        showTab('tab-meals'); // "Home" button activates the "Today's Meals" tab
+    });
+
+    // Initial state: hide app content until "Open" is clicked
+    // By default, app-content is flex, cover-page is on top.
+    // The `hidden` class and transition handle the display change.
+
+    // Function to reload cuisine frame (if needed, this won't be triggered by tab clicks anymore)
     function reloadCuisineFrame() {
       const frame = document.getElementById('cuisineFrame');
       const src = frame.src;
