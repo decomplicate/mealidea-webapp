@@ -1,279 +1,79 @@
-* {
-  box-sizing: border-box;
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #f4f4f4;
 }
 
-html, body {
-  min-height: 100%;
+.tabs-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  font-family: 'Poppins', sans-serif;
-  background: #f0f4f8;
 }
 
-/* Splash Page */
-#cover-page {
-  height: 100vh;
-  width: 100vw;
-  background: linear-gradient(135deg, #4CAF50, #388e3c);
+.tabs {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
+  background-color: #333;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 15px;
   text-align: center;
-  padding: 2rem;
-}
-
-.logo-cover-text {
-  font-size: 2rem;
-  background: white;
-  color: #4CAF50;
-  padding: 1rem 1.5rem;
-  border-radius: 50px;
-  font-weight: bold;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  margin-bottom: 2rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  user-select: none;
-  justify-content: center;
-}
-
-.logo-icon {
-  margin-right: 0.5rem;
-}
-
-.logo-text {
-  font-size: 1.5rem;
-}
-
-#cover-page h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.tagline {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  font-weight: 500;
-}
-
-.about-text {
-  max-width: 500px;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  opacity: 0.9;
-  margin: 1rem auto;
-  padding: 0 1rem;
-}
-
-.contact-text {
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-}
-
-.contact-text a {
-  color: #FFC107;
-  text-decoration: none;
-}
-
-.contact-text a:hover {
-  text-decoration: underline;
-}
-
-#cover-page button {
-  padding: 1rem 2rem;
-  background: #FFC107;
+  color: #fff;
+  background-color: #333;
   border: none;
-  border-radius: 30px;
-  font-size: 1.1rem;
-  font-weight: bold;
   cursor: pointer;
-  margin-top: 1.5rem;
-  color: #333;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s;
 }
 
-#cover-page button:hover {
-  background-color: #ffdb59;
-  transform: scale(1.03);
+.tab-button:hover {
+  background-color: #555;
 }
 
-/* App Layout */
-#app-content {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
+.tab-button.active {
+  background-color: #007bff;
 }
 
 .tab-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-pane {
   display: none;
-  flex-grow: 1;
-  overflow-y: auto;
-  padding: 1rem;
-  background: #f7f9fc;
+  padding: 20px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
 }
 
-.tab-content.active {
-  display: flex;
-  flex-direction: column;
-}
-
-.tab-content h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-  color: #4CAF50;
-  font-size: 1.5rem;
-}
-
-/* Increase Today's Meals container height by 1px */
-#tab-meals {
-  min-height: calc(100vh - 57px); /* bottom nav is 60px, so 59px = 1px taller */
-}
-
-/* Iframes */
-#tab-meals iframe {
-  width: 100%;
-  height: 30vh;
-  border: none;
-  border-radius: 12px;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-#tab-history {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  height: calc(100vh - 60px);
-  padding: 1rem;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-#tab-history iframe {
-  flex-grow: 1;
-  min-height: 0;
-  width: 100%;
-  border: none;
-  border-radius: 12px;
-  margin-bottom: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-#tab-feedback {
-  height: calc(100vh - 60px); /* full height minus bottom nav */
-  padding: 0;                 /* remove padding */
-  overflow: hidden;           /* prevent internal scroll */
-  display: flex;
-  flex-direction: column;
-}
-
-#tab-feedback iframe {
-  flex-grow: 1;               /* fill all vertical space */
-  width: 100%;
-  border: none;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* Subscribe Button */
-#tab-subscribe button {
-  background: #FFC107;
-  border: none;
-  color: #333;
-  font-size: 1.1rem;
-  padding: 1rem 2rem;
-  border-radius: 30px;
-  font-weight: bold;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  margin: 2rem auto;
+.tab-pane.active {
   display: block;
 }
 
-#tab-subscribe button:hover {
-  background-color: #ffdb59;
-  transform: scale(1.02);
-}
-
-/* Bottom Navigation */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
+iframe {
   width: 100%;
-  height: 60px;
-  background: white;
-  display: flex;
-  justify-content: space-around;
-  border-top: 1px solid #ccc;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.tab-btn {
-  flex-grow: 1;
-  text-align: center;
-  background: none;
   border: none;
-  padding: 0.8rem 0;
-  font-size: 1rem;
-  color: #4CAF50;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.tab-btn.active {
-  background: #4CAF50;
-  color: white;
+  height: 600px;
+  border-radius: 8px;
 }
 
 /* Responsive Design */
-@media (max-width: 600px) {
-  .logo-text {
-    font-size: 1.3rem;
+@media (max-width: 768px) {
+  .tabs {
+    flex-direction: column;
   }
 
-  .logo-icon {
-    font-size: 1.3rem;
+  .tab-button {
+    width: 100%;
   }
 
-  #cover-page h1 {
-    font-size: 2rem;
-  }
-
-  .tagline {
-    font-size: 1rem;
-  }
-
-  .about-text {
-    font-size: 0.85rem;
-  }
-
-  #cover-page button {
-    font-size: 1rem;
-    padding: 0.8rem 1.5rem;
-  }
-
-  #tab-meals {
-    min-height: calc(100vh - 57px);
-  }
-
-  #tab-meals iframe
- {
-    height: 22vh;
-  }
-
- 
-
-
-
-  .tab-content h2 {
-    font-size: 1.2rem;
+  iframe {
+    height: 400px;
   }
 }
-
-
