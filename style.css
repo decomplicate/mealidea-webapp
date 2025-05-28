@@ -1,97 +1,143 @@
-/* General Styles */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f4;
+:root {
+  --vh: 1vh;
 }
 
-/* Container */
-.tabs-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 20px auto;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: calc(var(--vh, 1vh) * 100);
+  font-family: 'Poppins', sans-serif;
+  background: #f0f4f8;
   overflow: hidden;
 }
 
-/* Tabs Bar */
-.tabs {
-  display: flex;
-  background-color: #333;
-  flex-wrap: wrap;
-}
-
-.tab-button {
-  flex: 1;
-  min-width: 120px;
-  padding: 15px;
-  text-align: center;
-  color: #fff;
-  background-color: #333;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.tab-button:hover {
-  background-color: #555;
-}
-
-.tab-button.active {
-  background-color: #007bff;
-}
-
-/* Tab Content */
+/* Common Tab Content Styling */
 .tab-content {
+  display: none;
+  flex-direction: column;
+  height: calc(var(--vh, 1vh) * 100 - 60px); /* exclude bottom nav */
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.tab-content.active {
+  display: flex;
+}
+
+.tab-content h2 {
+  text-align: center;
+  margin: 0.5rem 0 1rem;
+  color: #4CAF50;
+  font-size: 1.5rem;
+}
+
+/* Meals tab: multiple small iframes */
+#tab-meals iframe {
+  width: 100%;
+  height: 30vh;
+  border: none;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Feedback tab: large single iframe */
+#tab-feedback {
   display: flex;
   flex-direction: column;
+  padding: 1rem;
 }
 
-.tab-pane {
-  display: none;
-  padding: 20px;
-  background-color: #fff;
-  border-top: 1px solid #ddd;
-}
-
-.tab-pane.active {
-  display: block;
-}
-
-/* Iframes */
-iframe {
-  width: 100%;
+#tab-feedback iframe {
+  flex: 1;
   border: none;
-  height: 600px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* Coming Soon Section */
-.coming-soon {
-  text-align: center;
-  padding: 50px;
-  font-size: 24px;
+/* History tab: single large iframe */
+#tab-history {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+#tab-history iframe {
+  flex: 1;
+  border: none;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Subscribe tab: center button */
+#tab-subscribe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+#tab-subscribe button {
+  background: #FFC107;
+  border: none;
   color: #333;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .tabs {
-    flex-direction: column;
+#tab-subscribe button:hover {
+  background-color: #ffdb59;
+  transform: scale(1.02);
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #ccc;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+
+.tab-btn {
+  flex-grow: 1;
+  text-align: center;
+  background: none;
+  border: none;
+  padding: 0.8rem 0;
+  font-size: 1rem;
+  color: #4CAF50;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: #4CAF50;
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .tab-content h2 {
+    font-size: 1.2rem;
   }
 
-  .tab-button {
-    width: 100%;
-  }
-
-  iframe {
-    height: 400px;
+  #tab-meals iframe {
+    height: 22vh;
   }
 }
