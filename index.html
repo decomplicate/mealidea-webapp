@@ -1,354 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>MealIDEA</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      min-height: 100%;
-      overflow: hidden;
-      font-family: 'Poppins', sans-serif;
-      background: #f0f4f8;
-    }
-
-    /* Splash Page */
-    #cover-page {
-      height: 100vh;
-      width: 100vw;
-      background: linear-gradient(135deg, #4CAF50, #388e3c);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .logo-cover-text {
-      font-size: 2rem;
-      background: white;
-      color: #4CAF50;
-      padding: 1rem 1.75rem;
-      border-radius: 50px;
-      font-weight: 700;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      margin-bottom: 2rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      user-select: none;
-      justify-content: center;
-      letter-spacing: 1px;
-    }
-
-    /* Emoji icon spacing */
-    .logo-emoji {
-      font-size: 1.8rem;
-      line-height: 1;
-    }
-
-    #cover-page h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-    }
-
-    .tagline {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      font-weight: 500;
-    }
-
-    .about-text {
-      max-width: 500px;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      opacity: 0.9;
-      margin: 1rem auto;
-      padding: 0 1rem;
-    }
-
-    .contact-text {
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-    }
-
-    .contact-text a {
-      color: #FFC107;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .contact-text a:hover {
-      text-decoration: underline;
-    }
-
-    #cover-page button {
-      padding: 1rem 2rem;
-      background: #FFC107;
-      border: none;
-      border-radius: 30px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 1.5rem;
-      color: #333;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    #cover-page button:hover {
-      background-color: #ffdb59;
-      transform: scale(1.03);
-    }
-
-    /* App Layout */
-    #app-content {
-      display: none;
-      height: 100vh;
-      width: 100vw;
-      position: relative;
-      flex-direction: column;
-      overflow-y: auto;
-      background: #f7f9fc;
-    }
-
-    .tab-content {
-      display: none;
-      flex-grow: 1;
-      overflow-y: auto;
-      padding: 1rem;
-      background: #f7f9fc;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    .tab-content h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-      color: #4CAF50;
-      font-size: 1.5rem;
-      font-weight: 600;
-    }
-
-    /* Increase Today's Meals container height by 1px */
-    #tab-meals {
-      min-height: calc(100vh - 60px); /* bottom nav is 60px; 1px taller */
-    }
-
-    /* Iframes */
-    #tab-meals iframe,
-    #tab-feedback iframe {
-      width: 100%;
-      height: 30vh;
-      border: none;
-      border-radius: 12px;
-      margin-bottom: 1rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    #tab-history iframe {
-      width: 100%;
-      height: 60vh;
-      border: none;
-      border-radius: 12px;
-      margin-bottom: 1rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Subscribe Button */
-    #tab-subscribe button {
-      background: #FFC107;
-      border: none;
-      color: #333;
-      font-size: 1.1rem;
-      padding: 1rem 2rem;
-      border-radius: 30px;
-      font-weight: 700;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
-      margin: 2rem auto;
-      display: block;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    #tab-subscribe button:hover {
-      background-color: #ffdb59;
-      transform: scale(1.02);
-    }
-
-    /* Bottom Navigation */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      height: 60px;
-      background: white;
-      display: flex;
-      justify-content: space-around;
-      border-top: 1px solid #ccc;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-      z-index: 10;
-    }
-
-    .tab-btn {
-      flex-grow: 1;
-      text-align: center;
-      background: none;
-      border: none;
-      padding: 0.8rem 0;
-      font-size: 1rem;
-      color: #4CAF50;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      user-select: none;
-    }
-
-    .tab-btn.active {
-      background: #4CAF50;
-      color: white;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .logo-cover-text {
-        font-size: 1.6rem;
-        padding: 0.8rem 1.2rem;
-        gap: 0.4rem;
-      }
-
-      #cover-page h1 {
-        font-size: 2rem;
-      }
-
-      .tagline {
-        font-size: 1rem;
-      }
-
-      .about-text {
-        font-size: 0.85rem;
-      }
-
-      #cover-page button {
-        font-size: 1rem;
-        padding: 0.8rem 1.5rem;
-      }
-
-      #tab-meals {
-        min-height: calc(100vh - 60px);
-      }
-
-      #tab-meals iframe,
-      #tab-feedback iframe {
-        height: 22vh;
-      }
-
-      #tab-history iframe {
-        height: 65vh;
-      }
-
-      .tab-content h2 {
-        font-size: 1.2rem;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Tabs with Iframes</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-  <!-- Splash Page -->
-  <div id="cover-page" class="active">
-    <div class="logo-cover-text" aria-label="MealIDEA logo">
-      <span class="logo-emoji" aria-hidden="true">👨‍🍳</span>
-         </div>
-
-    <h1>Meal-Idea</h1>
-    <p class="tagline">Plan. Discover. Enjoy.</p>
-    <p class="about-text">
-      Bringing ease to your daily cooking decisions with diverse vegetarian Indian recipes—from North to South, East to West. One goal — Ease Life! 🌱
-    </p>
-    <p class="contact-text">
-      Contact us at: <a href="mailto:decomplicate001@gmail.com">decomplicate001@gmail.com</a>
-    </p>
-    <button id="enterAppBtn" aria-label="Start MealIDEA app">Open</button>
-  </div>
-
-  <!-- App Content -->
-  <div id="app-content" role="main" aria-live="polite">
-    <div class="tab-content active" id="tab-meals" tabindex="0">
-      <h2>Today's Meals</h2>
-      <iframe src="https://script.google.com/macros/s/AKfycbx-APEkUYNS3YxOIG1OcIX32nCBAnYd2mmVh0ADrV51me9G8iJnAqxg65ETsEsJhEAHCw/exec" title="Breakfast"></iframe>
-      <iframe src="https://script.google.com/macros/s/AKfycbxeBNiaKdEXr0LilVuCXi0Q9_6BGwVZ-HlIxLOBH7ml1h6vqlND-cGE6GeIxoUq6Ttv/exec" title="Lunch"></iframe>
-      <iframe src="https://script.google.com/macros/s/AKfycbyLG9ZOI4G84_bGrLe9I9UQeuNCYjziAQwQvtjKtU0tq3ZhuOHQpazO_ay75l3esY57/exec" title="Dinner"></iframe>
+  <div class="tabs-container">
+    <div class="tabs">
+      <button class="tab-button active" onclick="showTab('history')">History</button>
+      <button class="tab-button" onclick="showTab('meal')">Meal</button>
+      <button class="tab-button" onclick="showTab('feedback-subscribe')">Connect</button>
+      <button class="tab-button" onclick="showTab('cuisine')">Your Choice</button>
     </div>
-
-    <div class="tab-content" id="tab-history" tabindex="0">
-      <h2>Previous Meals</h2>
-      <iframe src="https://script.google.com/macros/s/AKfycbzR6ngzyaxIZWTaCqq9F2aIc-qtqamve8JsGG4sslLYJfrHvASdA2w4lH0eRqeSNZHarg/exec" title="History"></iframe>
+    <div class="tab-content">
+      <div id="history" class="tab-pane active">
+        <iframe src="https://example.com/history" title="History"></iframe>
+      </div>
+      <div id="meal" class="tab-pane">
+        <iframe src="https://example.com/meal" title="Meal"></iframe>
+      </div>
+      <div id="feedback-subscribe" class="tab-pane">
+        <iframe src="https://example.com/feedback" title="Feedback"></iframe>
+        <iframe src="https://example.com/subscribe" title="Subscribe"></iframe>
+      </div>
+      <div id="cuisine" class="tab-pane">
+        <div class="coming-soon">
+          <h2>Choose Your Cuisine</h2>
+          <p>We're coming soon!</p>
+        </div>
+      </div>
     </div>
-
-    <div class="tab-content" id="tab-feedback" tabindex="0">
-      <h2>Your Feedback</h2>
-      <iframe src="https://script.google.com/macros/s/AKfycbzA9Kp00Hr_7NghuLx4NoCL-sM81-Ar6Y_FMvhrqrsklKca1JZXF1BZjmXDN9-a9uVoVw/exec" title="Feedback"></iframe>
-    </div>
-
-    <div class="tab-content" id="tab-subscribe" tabindex="0">
-      <h2>Subscribe for Updates</h2>
-      <button onclick="window.open('https://forms.gle/PqhH5FhmSLpBxvxR9', '_blank')" aria-label="Subscribe for updates">🔔 Subscribe Now</button>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav" role="navigation" aria-label="Main navigation">
-      <button class="tab-btn active" data-tab="tab-meals" aria-controls="tab-meals" aria-selected="true" role="tab">🍽 Meals</button>
-      <button class="tab-btn" data-tab="tab-history" aria-controls="tab-history" aria-selected="false" role="tab">📜 History</button>
-      <button class="tab-btn" data-tab="tab-feedback" aria-controls="tab-feedback" aria-selected="false" role="tab">💬 Feedback</button>
-      <button class="tab-btn" data-tab="tab-subscribe" aria-controls="tab-subscribe" aria-selected="false" role="tab">🔔 Subscribe</button>
-    </nav>
   </div>
 
   <script>
-    const enterBtn = document.getElementById('enterAppBtn');
-    const coverPage = document.getElementById('cover-page');
-    const appContent = document.getElementById('app-content');
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-
-    enterBtn.addEventListener('click', () => {
-      coverPage.style.display = 'none';
-      appContent.style.display = 'flex';
-      // Set focus to first tab content for accessibility
-      tabContents[0].focus();
-    });
-
-    tabButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Remove active states
-        tabButtons.forEach(b => {
-          b.classList.remove('active');
-          b.setAttribute('aria-selected', 'false');
-        });
-        tabContents.forEach(tc => tc.classList.remove('active'));
-
-        // Activate clicked tab and corresponding content
-        btn.classList.add('active');
-        btn.setAttribute('aria-selected', 'true');
-        const tabId = btn.getAttribute('data-tab');
-        const activeTab = document.getElementById(tabId);
-        activeTab.classList.add('active');
-        activeTab.focus();
-      });
-    });
+    function showTab(tabName) {
+      const panes = document.querySelectorAll('.tab-pane');
+      const buttons = document.querySelectorAll('.tab-button');
+      panes.forEach(pane => pane.classList.remove('active'));
+      buttons.forEach(button => button.classList.remove('active'));
+      document.getElementById(tabName).classList.add('active');
+      document.querySelector(`.tab-button[onclick="showTab('${tabName}')"]`).classList.add('active');
+    }
   </script>
 </body>
 </html>
