@@ -261,22 +261,21 @@ html, body {
 #tab-feedback {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 60px); /* full viewport height minus bottom nav */
-  padding: 10px;
+  height: calc(100vh - 60px); /* Full screen minus bottom nav */
+  padding: 0; /* Remove extra padding */
   box-sizing: border-box;
-  overflow: hidden;  /* avoid double scrollbars */
- border: 2px solid red;
+  overflow: hidden; /* Prevent scrollbars */
 }
 
+/* Feedback iframe fills remaining space */
 #tab-feedback iframe {
   flex-grow: 1;
   width: 100%;
   border: none;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  min-height: 0; /* prevents flex overflow */
-  margin-bottom: 0;
-border: 2px dashed blue;
+  border-radius: 0; /* Optional: full width look */
+  box-shadow: none; /* Optional: remove shadow for full-page feel */
+  margin: 0; /* Remove bottom margin */
+  min-height: 0; /* Prevent overflow */
 }
 
   .tab-content h2 {
