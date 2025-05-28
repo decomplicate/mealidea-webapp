@@ -29,24 +29,22 @@ html, body {
   font-size: 2rem;
   background: white;
   color: #4CAF50;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.75rem;
   border-radius: 50px;
-  font-weight: bold;
+  font-weight: 700;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   margin-bottom: 2rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   user-select: none;
   justify-content: center;
+  letter-spacing: 1px;
 }
 
-.logo-icon {
-  margin-right: 0.5rem;
-}
-
-.logo-text {
-  font-size: 1.5rem;
+.logo-emoji {
+  font-size: 1.8rem;
+  line-height: 1;
 }
 
 #cover-page h1 {
@@ -77,6 +75,7 @@ html, body {
 .contact-text a {
   color: #FFC107;
   text-decoration: none;
+  font-weight: 600;
 }
 
 .contact-text a:hover {
@@ -89,11 +88,12 @@ html, body {
   border: none;
   border-radius: 30px;
   font-size: 1.1rem;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
   margin-top: 1.5rem;
   color: #333;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #cover-page button:hover {
@@ -103,10 +103,13 @@ html, body {
 
 /* App Layout */
 #app-content {
-  display: flex;
-  flex-direction: column;
+  display: none;
   height: 100vh;
-  overflow: hidden;
+  width: 100vw;
+  position: relative;
+  flex-direction: column;
+  overflow-y: auto;
+  background: #f7f9fc;
 }
 
 .tab-content {
@@ -127,15 +130,14 @@ html, body {
   margin-bottom: 1rem;
   color: #4CAF50;
   font-size: 1.5rem;
+  font-weight: 600;
 }
 
-/* Increase Today's Meals container height by 1px */
 #tab-meals {
-  min-height: calc(100vh - 57px); /* bottom nav is 60px, so 59px = 1px taller */
+  min-height: calc(100vh - 60px);
 }
 
-/* Iframes */
-#tab-meals iframe {
+iframe {
   width: 100%;
   height: 30vh;
   border: none;
@@ -145,57 +147,51 @@ html, body {
 }
 
 #tab-history {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  height: calc(100vh - 60px);
   padding: 1rem;
-  box-sizing: border-box;
-  overflow: hidden;
+  background: #f7f9fc;
 }
 
 #tab-history iframe {
-  flex-grow: 1;
-  min-height: 0;
   width: 100%;
+  height: 60vh;
   border: none;
   border-radius: 12px;
-  margin-bottom: 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 #tab-feedback {
-  height: calc(100vh - 60px); /* full height minus bottom nav */
-  padding: 0;                 /* remove padding */
-  overflow: hidden;           /* prevent internal scroll */
-  display: flex;
-  flex-direction: column;
+  padding: 1rem;
+  background: #f7f9fc;
 }
 
 #tab-feedback iframe {
-  flex-grow: 1;               /* fill all vertical space */
   width: 100%;
+  height: 50vh;
   border: none;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Subscribe Button */
-#tab-subscribe button {
+/* Subscribe Section */
+.subscribe-section {
+  margin: 1rem auto;
+  text-align: center;
+}
+
+.subscribe-section button {
   background: #FFC107;
   border: none;
   color: #333;
   font-size: 1.1rem;
   padding: 1rem 2rem;
   border-radius: 30px;
-  font-weight: bold;
+  font-weight: 700;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  margin: 2rem auto;
-  display: block;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-#tab-subscribe button:hover {
+.subscribe-section button:hover {
   background-color: #ffdb59;
   transform: scale(1.02);
 }
@@ -221,7 +217,7 @@ html, body {
   padding: 0.8rem 0;
   font-size: 1rem;
   color: #4CAF50;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
   transition: background 0.3s ease;
 }
@@ -233,12 +229,10 @@ html, body {
 
 /* Responsive Design */
 @media (max-width: 600px) {
-  .logo-text {
-    font-size: 1.3rem;
-  }
-
-  .logo-icon {
-    font-size: 1.3rem;
+  .logo-cover-text {
+    font-size: 1.6rem;
+    padding: 0.8rem 1.2rem;
+    gap: 0.4rem;
   }
 
   #cover-page h1 {
@@ -258,22 +252,15 @@ html, body {
     padding: 0.8rem 1.5rem;
   }
 
-  #tab-meals {
-    min-height: calc(100vh - 57px);
-  }
-
-  #tab-meals iframe
- {
+  iframe {
     height: 22vh;
   }
 
- 
-
-
+  #tab-history iframe {
+    height: 65vh;
+  }
 
   .tab-content h2 {
     font-size: 1.2rem;
   }
 }
-
-
