@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🐍 Hungry Snake Enhanced</title>
+<style>
+  :root {
+    --grid-cells: 20;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    background: linear-gradient(135deg, #041927, #064663);
+    color: #b0ff99;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 15px 5vw;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  h1 {
+    margin: 15px 0;
+    font-size: 2em;
+    text-align: center;
+    text-shadow: 0 0 8px #aaff77, 0 0 20px #77ff22;
+  }
+  #score-board, #instructions {
+    font-size: 1.1rem;
+    margin: 6px;
+    text-align: center;
+    max-width: 100%;
+    user-select: none;
+  }
+  #instructions {
+    color: #d0f4a7cc;
+    line-height: 1.4;
+    margin-bottom: 18px;
+  }
+  canvas {
+    background-color: #102c1c;
+    border: 5px solid #6cff6c;
+    width: 90vw;
+    max-width: 400px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    display: block;
+    touch-action: none;
+    margin: 0 auto 15px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px #00ff00cc inset;
+    position: relative;
+  }
+  #game-over {
+    color: #ff4b4b;
+    font-size: 2.2rem;
+    display: none;
+    margin-top: 25px;
+    text-shadow: 0 0 8px #ff5555;
+    user-select: none;
+  }
+  #pause-overlay {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #aaff77;
+    font-size: 3rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    user-select: none;
+    pointer-events: none;
+  }
+  #controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  button {
+    padding: 12px 26px;
+    background: linear-gradient(45deg, #77ff22, #44bb00);
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #102c1c;
+    cursor: pointer;
+    border-radius: 10px;
+    user-select: none;
+    box-shadow: 0 4px 6px #2a5a00aa;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  button:hover {
+    background: linear-gradient(45deg, #99ff44, #66cc00);
+    box-shadow: 0 6px 12px #56a300cc;
+  }
+  button:active {
+    transform: scale(0.95);
+  }
+  #lives {
+    font-size: 1.3rem;
+  }
+  #powerup-timer {
+    margin-top: 8px;
+    font-size: 1rem;
+    color: #99ff44cc;
+    text-align: center;
+    user-select: none;
+  }
+  #volume-control {
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+<header>
+  <button class="home-button" onclick="location.href='index.html'" aria-label="Go Home">🏠 Home</button>
+</header>
+<h1>🐍 Hungry Snake Enhanced</h1>
+<div id="score-board" aria-live="polite">
+  Score: <span id="score">0</span> | Level: <span id="level">1</span> | Lives: <span id="lives">❤️❤️❤️</span>
+</div>
+<div id="instructions" aria-live="polite">
+  🍎 & 🍓 fruits = grow snake by 2 blocks<br />
+  🍕 & 🍔 junk food = ends life<br />
+  🟨 Yellow block = normal food grows 1 block<br />
+  ⚡️⚡️ Speed boost 🍌 lasts 5 seconds<br />
+ </div>
+<div style="position:relative; width: 90vw; max-width: 400px;">
+  <canvas id="gameCanvas" role="img" aria-label="Snake game board"></canvas>
+  <div id="pause-overlay" aria-live="polite" aria-atomic="true">Paused</div>
+</div>
+<div id="powerup-timer" aria-live="polite" aria-atomic="true"></div>
+<div id="game-over" role="alert" aria-live="assertive">💀 Game Over!</div>
+<div id="controls">
+  <button id="pause-btn" aria-pressed="false">Pause</button>
+  <button id="music-btn" aria-pressed="true">Music: On</button>
+  <button id="restart-btn" style="display:none;">Restart</button>
+  <label for="volume-control" style="color:#b0ff99; font-weight:bold;">Volume:</label>
+  <input type="range" id="volume-control" min="0" max="1" step="0.01" value="0.07" aria-label="Music volume control" />
+</div>
+
+<script>
+(() => {
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const pauseOverlay = document.getElementById("pause-overlay");
+  const powerupTimerDisplay = document.getElementById("powerup-timer");
+
+  const maxCells = 20;
+  let box;
+
+  let score = 0;
+  let level = 1;
+  let lives = 3;
+  const baseSpeed = 200;
+  let speed = baseSpeed * 1.5;
+  let gameInterval;
+  let paused = false;
+  let musicOn = true;
+
+  // Snake is an array of segments; each segment has x,y in grid coords, widthScale controls block width
+  let snake = [{ x: 10, y: 10, widthScale: 1 }];
+  let direction = "RIGHT";
+  let nextDirection = direction;
+
+  let food = null;
+  let foodType = "normal";
+  let powerUpTimer = null;
+  let speedBoostActive = false;
+  let speedBoostTimer = null;
+  let speedBoostRemaining = 0;
+
+  let obstacles = [];
+
+  const junkFoods = [
+    { emoji: "🍕", type: "junk" },
+    { emoji: "🍔", type: "junk" }
+  ];
+
+  const powerUpFruits = [
+    { emoji: "🍎", type: "powerup" },
+    { emoji: "🍓", type: "powerup" }
+  ];
+
+  const normalFood = [
+    { emoji: "🟨", type: "normal" }
+  ];
+
+  const speedBoostFood = { emoji: "🍌", type: "speed" };
+
+  const eatSound = new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg');
+  const powerUpSound = new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg');
+  const hitSound = new Audio('https://actions.google.com/sounds/v1/cartoon/boing.ogg');
+  const gameOverSound = new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg');
+
+  const bgMusic = new Audio('https://cdn.pixabay.com/download/audio/2022/03/21/audio_bf3927c010.mp3?filename=retro-game-loop-7228.mp3');
+  bgMusic.loop = true;
+  bgMusic.volume = 0.07;
+
+  const volumeControl = document.getElementById("volume-control");
+
+  function resizeCanvas() {
+    const width = Math.min(window.innerWidth * 0.9, 400);
+    canvas.width = width;
+    canvas.height = width;
+    box = width / maxCells;
+  }
+
+  function resetSnakePosition() {
+    snake = [{ x: Math.floor(maxCells / 2), y: Math.floor(maxCells / 2), widthScale: 1 }];
+    direction = "RIGHT";
+    nextDirection = direction;
+  }
+
+  function randomPosition() {
+    let pos;
+    let tries = 0;
+    do {
+      pos = {
+        x: Math.floor(Math.random() * maxCells),
+        y: Math.floor(Math.random() * maxCells),
+      };
+      tries++;
+      if (tries > 100) break;
+    } while (
+      snake.some(seg => seg.x === pos.x && seg.y === pos.y) ||
+      obstacles.some(ob => ob.x === pos.x && ob.y === pos.y) ||
+      (food && food.x === pos.x && food.y === pos.y)
+    );
+    return pos;
+  }
+
+  function spawnFood() {
+  if (powerUpTimer) clearTimeout(powerUpTimer);
+
+  const r = Math.random();
+
+  if (r < 0.65) {  // 65% normal food (yellow block)
+    foodType = "normal";
+    food = randomPosition();
+    food.emoji = "🟨";
+  } else if (r < 0.9) {  // 25% powerup fruit
+    foodType = "powerup";
+    food = randomPosition();
+    const p = powerUpFruits[Math.floor(Math.random() * powerUpFruits.length)];
+    food.emoji = p.emoji;
+    powerUpTimer = setTimeout(() => {
+      if (foodType === "powerup") spawnFood();
+    }, 6000);
+  } else {  // 10% junk food
+    foodType = "junk";
+    food = randomPosition();
+    const j = junkFoods[Math.floor(Math.random() * junkFoods.length)];
+    food.emoji = j.emoji;
+  }
+}
+
+  function spawnObstacle() {
+    if (obstacles.length >= Math.min(5, level + 1)) return;
+    let pos = randomPosition();
+    let junk = junkFoods[Math.floor(Math.random() * junkFoods.length)];
+    obstacles.push({ x: pos.x, y: pos.y, type: junk.type, emoji: junk.emoji });
+  }
+
+  function draw() {
+    if (paused) return;
+
+    // Move snake head first before drawing
+    direction = nextDirection;
+    let head = { ...snake[0] };
+
+    switch (direction) {
+      case "LEFT": head.x = (head.x - 1 + maxCells) % maxCells; break;
+      case "RIGHT": head.x = (head.x + 1) % maxCells; break;
+      case "UP": head.y = (head.y - 1 + maxCells) % maxCells; break;
+      case "DOWN": head.y = (head.y + 1) % maxCells; break;
+    }
+
+    // Collision with self or obstacle
+    if (snake.some(seg => seg.x === head.x && seg.y === head.y) ||
+      obstacles.some(ob => ob.x === head.x && ob.y === head.y)) {
+      loseLife();
+      return;
+    }
+
+    snake.unshift(head);
+
+    // Check food collision
+    if (food && head.x === food.x && head.y === food.y) {
+      if (foodType === "normal") {
+        score++;
+        eatSound.play().catch(() => { });
+        growSnake(1);
+      } else if (foodType === "powerup") {
+        score += 2;
+        powerUpSound.play().catch(() => { });
+        growSnake(2);
+        snake[0].widthScale = 1.5; // visual effect for head when powered up
+      } else if (foodType === "speed") {
+        score += 3;
+        powerUpSound.play().catch(() => { });
+        activateSpeedBoost();
+      } else if (foodType === "junk") {
+        if (food.emoji === "🍕") {
+          shrinkSnake(2);
+          snake[0].widthScale = 0.7;
+        } else if (food.emoji === "🍔") {
+          shrinkSnake(2);
+        }
+        hitSound.play().catch(() => { });
+      }
+      spawnFood();
+      spawnObstacle();
+    } else {
+      snake.pop();
+    }
+
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw food emoji with simple pulsate effect
+    if (food && food.emoji) {
+      const pulse = 1 + 0.15 * Math.sin(Date.now() / 300);
+      ctx.font = `${box * 1.2 * pulse}px Arial`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(food.emoji, food.x * box + box / 2, food.y * box + box / 2);
+    }
+
+    // Draw obstacles emoji
+    obstacles.forEach(ob => {
+      ctx.font = `${box * 1.2}px Arial`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(ob.emoji, ob.x * box + box / 2, ob.y * box + box / 2);
+    });
+
+    // Draw snake segments with gradient color
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    gradient.addColorStop(0, '#aaff77');
+    gradient.addColorStop(1, '#44bb00');
+
+    snake.forEach((segment, i) => {
+      // Interpolate color along the snake's length
+      const t = i / snake.length;
+      const r = Math.floor(159 + 34 * t);
+      const g = Math.floor(255 - 63 * t);
+      const b = Math.floor(114 - 80 * t);
+      ctx.fillStyle = `rgb(${r},${g},${b})`;
+
+      const w = box * (segment.widthScale || 1);
+      const offset = (box - w) / 2;
+      ctx.fillRect(segment.x * box + offset, segment.y * box, w, box);
+    });
+
+    // Update UI
+    document.getElementById("score").textContent = score;
+    const newLevel = Math.floor(score / 10) + 1;
+    if (newLevel !== level) {
+      level = newLevel;
+      speed = Math.max(baseSpeed - (level - 1) * 15, 50);
+      restartGameLoop();
+    }
+    document.getElementById("level").textContent = level;
+    document.getElementById("lives").textContent = "❤️".repeat(lives);
+
+    // Show speed boost timer if active
+    if (speedBoostActive) {
+      powerupTimerDisplay.textContent = `⚡️ Speed Boost: ${speedBoostRemaining.toFixed(1)}s`;
+    } else {
+      powerupTimerDisplay.textContent = "";
+    }
+  }
+
+  function growSnake(amount) {
+    // add 'amount' of segments duplicating last segment
+    for (let i = 0; i < amount; i++) {
+      const last = snake[snake.length - 1];
+      snake.push({ x: last.x, y: last.y, widthScale: 1 });
+    }
+  }
+
+  function shrinkSnake(amount) {
+  // Shrinks snake by amount, but never less than length 2, no life lost here
+  for (let i = 0; i < amount; i++) {
+    if (snake.length > 2) {
+      snake.pop();
+    } else {
+      // Minimum length reached, just stop shrinking
+      break;
+    }
+  }
+}
+
+  function loseLife() {
+    lives--;
+    hitSound.play().catch(() => { });
+    if (lives <= 0) {
+      gameOver();
+    } else {
+      resetSnakePosition();
+      speedBoostActive = false;
+      speedBoostRemaining = 0;
+      restartGameLoop();
+    }
+  }
+
+  function gameOver() {
+    clearInterval(gameInterval);
+    document.getElementById("game-over").style.display = "block";
+    document.getElementById("restart-btn").style.display = "inline-block";
+    bgMusic.pause();
+    gameOverSound.play().catch(() => { });
+  }
+
+  function restartGameLoop() {
+    clearInterval(gameInterval);
+    gameInterval = setInterval(draw, speed);
+  }
+
+  function activateSpeedBoost() {
+    if (speedBoostActive) {
+      speedBoostRemaining = 5;
+      return;
+    }
+    speedBoostActive = true;
+    speedBoostRemaining = 5;
+    speed /= 2;
+    restartGameLoop();
+
+    speedBoostTimer = setInterval(() => {
+      speedBoostRemaining -= 0.1;
+      if (speedBoostRemaining <= 0) {
+        speedBoostActive = false;
+        clearInterval(speedBoostTimer);
+        speedBoostTimer = null;
+        speed = baseSpeed - (level - 1) * 15;
+        restartGameLoop();
+      }
+    }, 100);
+  }
+
+  // Keyboard controls
+  window.addEventListener("keydown", (e) => {
+    if (paused) return;
+    if (["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown"].includes(e.key)) {
+      e.preventDefault();
+      const newDir = e.key.replace("Arrow", "").toUpperCase();
+      // Prevent reversing instantly
+      if (
+        (direction === "LEFT" && newDir === "RIGHT") ||
+        (direction === "RIGHT" && newDir === "LEFT") ||
+        (direction === "UP" && newDir === "DOWN") ||
+        (direction === "DOWN" && newDir === "UP")
+      ) return;
+      nextDirection = newDir;
+    }
+  });
+
+  // Touch controls with swipe detection
+  let touchStartX = null;
+  let touchStartY = null;
+  let touchThreshold = 30; // Minimum swipe distance to count
+
+  canvas.addEventListener("touchstart", (e) => {
+    if (paused) return;
+    const touch = e.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  });
+
+  canvas.addEventListener("touchmove", (e) => {
+    if (paused) return;
+    if (!touchStartX || !touchStartY) return;
+    const touch = e.touches[0];
+    const dx = touch.clientX - touchStartX;
+    const dy = touch.clientY - touchStartY;
+
+    if (Math.abs(dx) > touchThreshold || Math.abs(dy) > touchThreshold) {
+      if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0 && direction !== "LEFT") nextDirection = "RIGHT";
+        else if (dx < 0 && direction !== "RIGHT") nextDirection = "LEFT";
+      } else {
+        if (dy > 0 && direction !== "UP") nextDirection = "DOWN";
+        else if (dy < 0 && direction !== "DOWN") nextDirection = "UP";
+      }
+      touchStartX = null;
+      touchStartY = null;
+    }
+  });
+
+  // Pause toggle
+  const pauseBtn = document.getElementById("pause-btn");
+  pauseBtn.addEventListener("click", () => {
+    paused = !paused;
+    pauseBtn.setAttribute("aria-pressed", paused);
+    pauseBtn.textContent = paused ? "Resume" : "Pause";
+    pauseOverlay.style.display = paused ? "flex" : "none";
+    if (!paused) {
+      restartGameLoop();
+      if (musicOn) bgMusic.play();
+    } else {
+      clearInterval(gameInterval);
+      bgMusic.pause();
+    }
+  });
+
+  // Music toggle
+  const musicBtn = document.getElementById("music-btn");
+  musicBtn.addEventListener("click", () => {
+    musicOn = !musicOn;
+    musicBtn.setAttribute("aria-pressed", musicOn);
+    musicBtn.textContent = musicOn ? "Music: On" : "Music: Off";
+    if (musicOn && !paused) {
+      bgMusic.play();
+    } else {
+      bgMusic.pause();
+    }
+  });
+
+  // Volume control
+  volumeControl.addEventListener("input", (e) => {
+    bgMusic.volume = e.target.value;
+  });
+
+  // Restart button
+  const restartBtn = document.getElementById("restart-btn");
+  restartBtn.addEventListener("click", () => {
+    score = 0;
+    level = 1;
+    lives = 3;
+    speed = baseSpeed * 1.5;
+    snake = [];
+    resetSnakePosition();
+    obstacles = [];
+    spawnFood();
+    document.getElementById("game-over").style.display = "none";
+    restartBtn.style.display = "none";
+    pauseBtn.textContent = "Pause";
+    pauseBtn.setAttribute("aria-pressed", false);
+    paused = false;
+    powerupTimerDisplay.textContent = "";
+    bgMusic.currentTime = 0;
+    if (musicOn) bgMusic.play();
+    restartGameLoop();
+  });
+
+  window.addEventListener("resize", () => {
+    resizeCanvas();
+    draw();
+  });
+
+  // Init
+  resizeCanvas();
+  resetSnakePosition();
+  spawnFood();
+  restartGameLoop();
+  if (musicOn) bgMusic.play();
+
+})();
+</script>
+</body>
+</html>
