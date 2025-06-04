@@ -1,0 +1,347 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<title>Punch Me Game - Enhanced</title>
+<style>
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+    background: #f0f0f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none;
+    flex-direction: column;
+    transition: background-color 0.5s ease;
+  }
+  #game {
+    text-align: center;
+  }
+  #face {
+    width: 200px;
+    height: 200px;
+    background: #ffcc00;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.1s ease, background-color 0.3s ease;
+    user-select: none;
+    margin: 0 auto 20px;
+  }
+  .eye {
+    width: 40px;
+    height: 40px;
+    background: #000;
+    border-radius: 50%;
+    position: absolute;
+    top: 50px;
+    transition: all 0.3s ease;
+  }
+  .eye.left {
+    left: 50px;
+  }
+  .eye.right {
+    right: 50px;
+  }
+  #mouth {
+    width: 120px;
+    height: 40px;
+    background: #900;
+    border-radius: 0 0 60px 60px;
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: background-color 0.2s ease, border-radius 0.3s ease;
+  }
+  #face.punching {
+    animation: punch-shake 0.2s ease;
+  }
+  @keyframes punch-shake {
+    0% { transform: translateX(0) rotate(0); }
+    25% { transform: translateX(-15px) rotate(-10deg); }
+    50% { transform: translateX(15px) rotate(10deg); }
+    75% { transform: translateX(-10px) rotate(-5deg); }
+    100% { transform: translateX(0) rotate(0); }
+  }
+  /* Expressions */
+  #face.happy {
+    background-color: #ffeb3b;
+  }
+  #face.annoyed {
+    background-color: #ff6f61;
+  }
+  #face.dizzy {
+    background-color: #a678f0;
+  }
+  #face.happy .eye {
+    background: #005500;
+    border-radius: 50% / 70%;
+  }
+  #face.annoyed .eye.left {
+    transform: rotate(-15deg);
+  }
+  #face.annoyed .eye.right {
+    transform: rotate(15deg);
+  }
+  #face.dizzy .eye {
+    background: #333;
+    border-radius: 30% / 50%;
+  }
+  #face.dizzy #mouth {
+    border-radius: 60px;
+    background-color: #f00;
+  }
+
+  #score, #combo, #message, #levelMsg {
+    font-size: 24px;
+    color: #333;
+    margin: 6px 0;
+    min-height: 30px;
+  }
+  #levelMsg {
+    font-weight: bold;
+    color: #444;
+    font-style: italic;
+  }
+  #controls {
+    margin-top: 15px;
+  }
+  button {
+    font-size: 18px;
+    padding: 8px 14px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #3366ff;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background: #254eda;
+  }
+
+  /* Combo reward flash */
+  #face.combo-flash {
+    animation: combo-flash 0.5s ease forwards;
+  }
+  @keyframes combo-flash {
+    0% { filter: brightness(1); transform: scale(1); }
+    50% { filter: brightness(1.5); transform: scale(1.1); }
+    100% { filter: brightness(1); transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+<header>
+  <button class="home-button" onclick="location.href='index.html'" aria-label="Go Home">🏠 Home</button>
+</header>
+
+<div id="game" role="main" aria-label="Punch Me Destress Game">
+  <div id="face" role="button" tabindex="0" aria-label="Punch the face">
+    <div class="eye left"></div>
+    <div class="eye right"></div>
+    <div id="mouth"></div>
+  </div>
+  <div id="score" aria-live="polite">Punches: 0</div>
+  <div id="combo" aria-live="polite">Combo: 0</div>
+  <div id="message" aria-live="polite">Tap the face to destress!</div>
+  <div id="levelMsg" aria-live="polite"></div>
+  <div id="controls">
+    <button id="toggleMusic">Play Music</button>
+    <button id="reset">Reset</button>
+  </div>
+</div>
+
+<!-- Audio elements -->
+<audio id="punchSound" src="https://www.chosic.com/download-audio/58058/" preload="auto"></audio>
+<audio id="bgMusic" loop src="https://cdn.pixabay.com/download/audio/2023/03/22/audio_14bfe1a4d7.mp3?filename=relaxing-background-music-7293.mp3" preload="auto"></audio>
+<audio id="comboSound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_b379f8b32e.mp3?filename=game-jump-03-8045.mp3" preload="auto"></audio>
+
+<script>
+  const face = document.getElementById('face');
+  const scoreEl = document.getElementById('score');
+  const comboEl = document.getElementById('combo');
+  const mouth = document.getElementById('mouth');
+  const message = document.getElementById('message');
+  const levelMsg = document.getElementById('levelMsg');
+  const punchSound = document.getElementById('punchSound');
+  const bgMusic = document.getElementById('bgMusic');
+  const toggleMusicBtn = document.getElementById('toggleMusic');
+  const resetBtn = document.getElementById('reset');
+  const comboSound = document.getElementById('comboSound');
+
+  let punches = 0;
+  let combo = 0;
+  let lastPunchTime = 0;
+  let comboTimeout;
+  let level = 1;
+
+  // Volumes
+  punchSound.volume = 0.5;
+  bgMusic.volume = 0.3;
+  comboSound.volume = 0.4;
+
+  function updateExpression() {
+    face.classList.remove('happy', 'annoyed', 'dizzy');
+    if (punches < 10) {
+      face.classList.add('happy');
+    } else if (punches < 30) {
+      face.classList.add('annoyed');
+    } else {
+      face.classList.add('dizzy');
+    }
+  }
+
+  function updateBackground() {
+    // Change background color based on level
+    const colors = ['#f0f0f5', '#e0f7fa', '#fff3e0', '#f3e5f5', '#ffebee'];
+    const color = colors[(level - 1) % colors.length];
+    document.body.style.backgroundColor = color;
+  }
+
+  function levelUp() {
+    level++;
+    levelMsg.textContent = `Level Up! You reached Level ${level}! 🎉`;
+    updateBackground();
+    setTimeout(() => {
+      levelMsg.textContent = '';
+    }, 3000);
+  }
+
+  function punch() {
+    const now = Date.now();
+
+    // Combo logic
+    if (now - lastPunchTime < 1500) {
+      combo++;
+    } else {
+      combo = 1;
+    }
+    lastPunchTime = now;
+
+    // Combo timeout reset
+    clearTimeout(comboTimeout);
+    comboTimeout = setTimeout(() => {
+      combo = 0;
+      comboEl.textContent = 'Combo: 0';
+    }, 2000);
+
+    // Calculate punch increment: combo multiplier (max x3)
+    let punchIncrement = 1 + Math.min(combo, 10) * 0.2; // max 3x for combo 10+
+    punches += punchIncrement;
+    punches = Math.floor(punches); // Keep integer
+
+    scoreEl.textContent = `Punches: ${punches}`;
+    comboEl.textContent = `Combo: ${combo}`;
+
+    // Play punch sound
+    try {
+      punchSound.currentTime = 0;
+      punchSound.play();
+    } catch {}
+
+    // Visual punch feedback
+    face.classList.add('punching');
+    mouth.style.backgroundColor = '#f00';
+
+    // Combo flash for streaks >= 5
+    if (combo >= 5) {
+      face.classList.add('combo-flash');
+    }
+
+    // Vibration patterns for combos
+    if (navigator.vibrate) {
+      let pattern = [50];
+      if (combo >= 5) pattern = [30, 30, 30];
+      if (combo >= 10) pattern = [20, 20, 20, 20, 20];
+      navigator.vibrate(pattern);
+    }
+
+    setTimeout(() => {
+      face.classList.remove('punching');
+      face.classList.remove('combo-flash');
+      mouth.style.backgroundColor = '#900';
+    }, 300);
+
+    updateExpression();
+
+    // Messages & level ups
+    if (punches >= 10 && level === 1) {
+      message.textContent = "Feeling better?";
+      levelUp();
+    } else if (punches >= 30 && level === 2) {
+      message.textContent = "Keep going! You're doing great!";
+      levelUp();
+    } else if (punches >= 50 && level === 3) {
+      message.textContent = "Wow! That's a lot of punches!";
+      levelUp();
+    } else if (punches > 50) {
+      message.textContent = "Let it all out!";
+    }
+
+    // Play combo sound on certain streak milestones
+    if (combo > 0 && combo % 5 === 0) {
+      try {
+        comboSound.currentTime = 0;
+        comboSound.play();
+      } catch {}
+      // Bonus message for streaks
+      message.textContent = `Combo Streak: ${combo}! Keep it up! 🔥`;
+    }
+  }
+
+  face.addEventListener('click', punch);
+  face.addEventListener('touchstart', e => {
+    e.preventDefault();
+    punch();
+  }, { passive: false });
+
+  face.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      punch();
+    }
+  });
+
+  toggleMusicBtn.addEventListener('click', () => {
+  // Resume context if needed (important for Safari)
+  if (typeof AudioContext !== "undefined" && AudioContext.state === "suspended") {
+    AudioContext.resume();
+  }
+
+  if (bgMusic.paused) {
+    bgMusic.play().then(() => {
+      toggleMusicBtn.textContent = 'Pause Music';
+    }).catch(err => {
+      alert('Audio playback failed. Please click anywhere on the page first.');
+      console.error(err);
+    });
+  } else {
+    bgMusic.pause();
+    toggleMusicBtn.textContent = 'Play Music';
+  }
+});
+
+  resetBtn.addEventListener('click', () => {
+    punches = 0;
+    combo = 0;
+    level = 1;
+    lastPunchTime = 0;
+    scoreEl.textContent = 'Punches: 0';
+    comboEl.textContent = 'Combo: 0';
+    message.textContent = 'Tap the face to destress!';
+    levelMsg.textContent = '';
+    updateExpression();
+    updateBackground();
+  });
+
+  // Initialize expression and background
+  updateExpression();
+  updateBackground();
+</script>
+
+</body>
+</html>

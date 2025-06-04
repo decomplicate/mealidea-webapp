@@ -284,6 +284,86 @@
     margin-top: 0.5rem;
   }
 }
+#gamePopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  z-index: 200;
+  width: 90%;
+  max-width: 400px;
+  transition: all 0.3s ease-in-out;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+#gamePopup h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+#gameSelect {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  margin: 1.5rem 0;
+  transition: border-color 0.2s ease;
+}
+
+#gameSelect:focus {
+  outline: none;
+  border-color: #ffb703;
+  box-shadow: 0 0 0 2px rgba(255, 183, 3, 0.2);
+}
+
+#gamePopup .popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+#gamePopup button {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#gameCancelBtn {
+  background-color: #ccc;
+  color: #333;
+}
+
+#gameGoBtn {
+  background-color: #ffd369;
+  color: #222;
+}
+
+#gamePopup button:hover {
+  transform: scale(1.03);
+}
+
+#gameGoBtn:hover {
+  background-color: #ffe492;
+}
+
+#gameCancelBtn:hover {
+  background-color: #bcbcbc;
+}
+
 
   </style>
 </head>
@@ -307,7 +387,7 @@
   <span class="logo-text">Suggested Meal Plan</span>
   <div class="nav-buttons">
     <button id="homeButton" class="nav-button">🏠Home</button>
-<a href="game.html" class="nav-button">🎮Game</a>
+<button id="gameButton" class="nav-button">🎮Game</button>
     <a href="https://www.amazon.com/alm/storefront?almBrandId=QW1hem9uIEZyZXNo" target="_blank" class="nav-button">🛒 Store</a>
   </div>
 </div>
@@ -343,6 +423,21 @@
       <button class="tab-btn" data-tab="tab-cuisine">🍛 Your Choice</button>
     </nav>
   </div>
+
+<div id="gamePopup" style="display:none; position:fixed; top:50%; left:50%; transform: translate(-50%, -50%);
+  background:white; padding: 1rem 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border-radius:12px; z-index:200;">
+  <h3>Choose Your Game</h3>
+  <select id="gameSelect" style="width: 100%; padding: 0.5rem; margin: 1rem 0;">
+    <option value="" disabled selected>Select a game</option>
+    <option value="game.html">Hungry Snake</option>
+    <option value="punch.html">Punch Me</option>
+    
+  </select>
+  <div style="text-align: right;">
+    <button id="gameCancelBtn" style="margin-right:1rem; padding:0.5rem 1rem;">Cancel</button>
+    <button id="gameGoBtn" style="padding:0.5rem 1rem;">Play</button>
+  </div>
+</div>
 
   <script>
     const enterBtn = document.getElementById('enterAppBtn');
@@ -403,6 +498,32 @@
     frame.src = '';
     setTimeout(() => frame.src = src, 100);
   }
+const gameButton = document.getElementById('gameButton');
+const gamePopup = document.getElementById('gamePopup');
+const gameSelect = document.getElementById('gameSelect');
+const gameCancelBtn = document.getElementById('gameCancelBtn');
+const gameGoBtn = document.getElementById('gameGoBtn');
+
+// Show popup on clicking Game button
+gameButton.addEventListener('click', () => {
+  gameSelect.value = "";
+  gamePopup.style.display = 'block';
+});
+
+// Cancel closes popup
+gameCancelBtn.addEventListener('click', () => {
+  gamePopup.style.display = 'none';
+});
+
+// Play button opens selected game html page
+gameGoBtn.addEventListener('click', () => {
+  const selectedGame = gameSelect.value;
+  if (selectedGame) {
+    window.location.href = selectedGame;
+  } else {
+    alert("Please select a game to play.");
+  }
+});
   </script>
 </body>
 </html>
