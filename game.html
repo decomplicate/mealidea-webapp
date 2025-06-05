@@ -88,6 +88,20 @@
     flex-wrap: wrap;
     justify-content: center;
   }
+#touch-controls button {
+  padding: 20px;
+  font-size: 1.5rem;
+  background-color: #b0ff99;
+  color: #102c1c;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px #2a5a00aa;
+  cursor: pointer;
+}
+#touch-controls button:active {
+  transform: scale(0.95);
+}
+
   button {
     padding: 12px 26px;
     background: linear-gradient(45deg, #77ff22, #44bb00);
@@ -151,7 +165,16 @@
   <label for="volume-control" style="color:#b0ff99; font-weight:bold;">Volume:</label>
   <input type="range" id="volume-control" min="0" max="1" step="0.01" value="0.07" aria-label="Music volume control" />
 </div>
-
+<div id="touch-controls" style="margin-top: 20px;">
+  <div style="display:flex; justify-content:center; margin-bottom:10px;">
+    <button onclick="handleDirectionChange('UP')" aria-label="Up">⬆️</button>
+  </div>
+  <div style="display:flex; justify-content:center; gap:10px;">
+    <button onclick="handleDirectionChange('LEFT')" aria-label="Left">⬅️</button>
+    <button onclick="handleDirectionChange('DOWN')" aria-label="Down">⬇️</button>
+    <button onclick="handleDirectionChange('RIGHT')" aria-label="Right">➡️</button>
+  </div>
+</div>
 <script>
 (() => {
   const canvas = document.getElementById("gameCanvas");
@@ -399,7 +422,7 @@
     gameInterval = setInterval(gameLoop, speed);
   }
 
-  function handleDirectionChange(newDir) {
+  window.handleDirectionChange = function(newDir) {
     // Prevent reversing direction directly
     if (
       (direction === "UP" && newDir === "DOWN") ||
