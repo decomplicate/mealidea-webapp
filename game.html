@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Snake Game with Levels & Junk</title>
+  <title>Hungry Snake</title>
   <style>
     body {
       background: #041927;
@@ -39,15 +39,18 @@
       cursor: pointer;
     }
 #mobile-controls .arrow {
-  font-size: 24px;
-  padding: 10px 15px;
-  margin: 5px;
+  font-size: 18px;       /* smaller arrow size */
+  padding: 6px 10px;     /* smaller button padding */
+  margin: 3px;           /* tighter spacing */
   background: #44bb00;
   color: #102c1c;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  width: 40px;
+  height: 40px;
 }
+
   </style>
 </head>
 <body>
@@ -58,7 +61,7 @@
   🍌 Banana & 🍎 Red Apple = +10 points & grow snake<br>
   💀 Skull = lose 1 ❤️ life<br>
   🍕🍔🍟 Junk = lose 2 block<br>
-  🎯 Level ↑ every 50 pts, game speeds up<br>
+  🎯 Level ↑ every 100 pts, game speeds up<br>
   🕹️ Use Arrow keys / Swipe<br>
   🔇 Toggle sound below<br>
 </div>
@@ -77,7 +80,7 @@
   <div style="display: flex; justify-content: center;">
     <button class="arrow" data-dir="UP">⬆️</button>
   </div>
-  <div style="display: flex; justify-content: center;">
+   <div style="display: flex; justify-content: center; gap: 4px;">
     <button class="arrow" data-dir="LEFT">⬅️</button>
     <button class="arrow" data-dir="DOWN">⬇️</button>
     <button class="arrow" data-dir="RIGHT">➡️</button>
@@ -109,7 +112,7 @@
   const skullEmoji = '💀';
 
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  function playBeep(freq = 240, duration = 100) {
+  function playBeep(freq = 140, duration = 100) {
     if (!soundOn) return;
     const osc = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
@@ -122,11 +125,11 @@
     osc.stop(audioCtx.currentTime + duration / 1000);
   }
 
-  function playEatSound() { playBeep(500, 50); }
-  function playJunkSound() { playBeep(150, 400); }
-  function playDieSound() { playBeep(100, 600); }
-  function playMoveSound() { playBeep(400, 80); }
-  function playLevelUpSound() { playBeep(600, 80); }
+  function playEatSound() { playBeep(200, 50); }
+  function playJunkSound() { playBeep(150, 100); }
+  function playDieSound() { playBeep(100, 60); }
+  function playMoveSound() { playBeep(300, 70); }
+  function playLevelUpSound() { playBeep(400, 80); }
 
   function randomPos() {
     let pos;
@@ -222,7 +225,7 @@
 
   function increaseLevel(){
     level++;
-  speed = Math.max(150, baseSpeed - (level - 1) * 30); // slower speed increments
+  speed = Math.max(150, baseSpeed - (level - 1) * 35); // slower speed increments
   clearInterval(gameInterval);
   gameInterval = setInterval(gameLoop, speed);
   playLevelUpSound();
@@ -379,6 +382,15 @@ canvas.addEventListener('touchend', e => {
     paused = !paused;
     document.getElementById('pauseBtn').textContent = paused ? 'Resume' : 'Pause';
   };
+document.querySelectorAll('.arrow').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const dir = btn.getAttribute('data-dir');
+    if (dir === 'UP' && direction !== 'DOWN') nextDirection = 'UP';
+    else if (dir === 'DOWN' && direction !== 'UP') nextDirection = 'DOWN';
+    else if (dir === 'LEFT' && direction !== 'RIGHT') nextDirection = 'LEFT';
+    else if (dir === 'RIGHT' && direction !== 'LEFT') nextDirection = 'RIGHT';
+  });
+});
 
   document.getElementById('restartBtn').onclick = () => {
     document.getElementById('game-over').style.display = 'none';
@@ -407,16 +419,7 @@ canvas.addEventListener('touchend', e => {
   updateScoreBoard();
 })();
 
-document.querySelectorAll('.arrow').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const dir = btn.getAttribute('data-dir');
-    if (paused) return;
-    if (dir === 'UP' && direction !== 'DOWN') nextDirection = 'UP';
-    else if (dir === 'DOWN' && direction !== 'UP') nextDirection = 'DOWN';
-    else if (dir === 'LEFT' && direction !== 'RIGHT') nextDirection = 'LEFT';
-    else if (dir === 'RIGHT' && direction !== 'LEFT') nextDirection = 'RIGHT';
-  });
-});
+
 </script>
 
 </body>
