@@ -21,6 +21,8 @@
       width: 90vw;
       aspect-ratio: 1/1;
       border-radius: 12px;
+ touch-action: none;
+  -ms-touch-action: none;
     }
     #controls {
       margin-bottom: 15px;
@@ -332,22 +334,25 @@
   // Touch controls
   let touchStartX, touchStartY;
   canvas.addEventListener('touchstart', e => {
-    const t = e.touches[0];
-    touchStartX = t.clientX;
-    touchStartY = t.clientY;
-  });
-  canvas.addEventListener('touchend', e => {
-    const t = e.changedTouches[0];
-    let dx = t.clientX - touchStartX;
-    let dy = t.clientY - touchStartY;
-    if(Math.abs(dx) > Math.abs(dy)){
-      if(dx > 20 && direction !== 'LEFT') nextDirection = 'RIGHT';
-      else if(dx < -20 && direction !== 'RIGHT') nextDirection = 'LEFT';
-    } else {
-      if(dy > 20 && direction !== 'UP') nextDirection = 'DOWN';
-      else if(dy < -20 && direction !== 'DOWN') nextDirection = 'UP';
-    }
-  });
+  e.preventDefault(); // ← Add this
+  const t = e.touches[0];
+  touchStartX = t.clientX;
+  touchStartY = t.clientY;
+});
+
+canvas.addEventListener('touchend', e => {
+  e.preventDefault(); // ← Add this
+  const t = e.changedTouches[0];
+  let dx = t.clientX - touchStartX;
+  let dy = t.clientY - touchStartY;
+  if(Math.abs(dx) > Math.abs(dy)){
+    if(dx > 20 && direction !== 'LEFT') nextDirection = 'RIGHT';
+    else if(dx < -20 && direction !== 'RIGHT') nextDirection = 'LEFT';
+  } else {
+    if(dy > 20 && direction !== 'UP') nextDirection = 'DOWN';
+    else if(dy < -20 && direction !== 'DOWN') nextDirection = 'UP';
+  }
+});
 
   // Buttons
   document.getElementById('pauseBtn').onclick = () => {
